@@ -1,0 +1,8 @@
+import 'package:flutter/material.dart';
+
+//package
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final loginProvider = ChangeNotifierProvider((ref) => LoginModel());
+
+class LoginModel extends ChangeNotifier {}
