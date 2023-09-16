@@ -35,12 +35,37 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_riverpod: ^2.4.0
+  flutter_riverpod:
+  firebase_core:
+  firebase_auth:
+  cloud_firestore:
+  firebase_analytics:
+  google_fonts:
+  pull_to_refresh:
+  image_cropper:
+  shared_preferences:
+  url_launcher:
+  clipboard:
+  flutter_launcher_icons:
+  flash:
+  uuid:
+  image_picker:
+  flutter_svg:
+  firebase_storage:
+  firebase_crashlytics:
+  fluttertoast:
+  material_floating_search_bar:
+  http:
+  flutter_dotenv:
+  algolia:
+  freezed_annotation:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  build_runner:
+  freezed:
+  json_serializable:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "367636450484",
+    "project_id": "flutter-sns-udemy02",
+    "storage_bucket": "flutter-sns-udemy02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367636450484:android:977d72d3b5896164cb1be1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_sns_u_02"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6TVlblu-qf9XLYIRaySa9MElCI7PAUi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
