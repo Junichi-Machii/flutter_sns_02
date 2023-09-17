@@ -10,6 +10,7 @@ abstract class FirestoreUser with _$FirestoreUser {
     required String email,
     required dynamic updatedAt,
     required String userName,
+    required String userImageURL,
     required String uid,
   }) = _FirestoreUser;
   factory FirestoreUser.fromJson(Map<String, dynamic> json) =>

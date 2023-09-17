@@ -24,6 +24,7 @@ mixin _$FirestoreUser {
   String get email => throw _privateConstructorUsedError;
   dynamic get updatedAt => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
+  String get userImageURL => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $FirestoreUserCopyWith<$Res> {
       String email,
       dynamic updatedAt,
       String userName,
+      String userImageURL,
       String uid});
 }
 
@@ -63,6 +65,7 @@ class _$FirestoreUserCopyWithImpl<$Res, $Val extends FirestoreUser>
     Object? email = null,
     Object? updatedAt = freezed,
     Object? userName = null,
+    Object? userImageURL = null,
     Object? uid = null,
   }) {
     return _then(_value.copyWith(
@@ -81,6 +84,10 @@ class _$FirestoreUserCopyWithImpl<$Res, $Val extends FirestoreUser>
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImageURL: null == userImageURL
+          ? _value.userImageURL
+          : userImageURL // ignore: cast_nullable_to_non_nullable
               as String,
       uid: null == uid
           ? _value.uid
@@ -103,6 +110,7 @@ abstract class _$$_FirestoreUserCopyWith<$Res>
       String email,
       dynamic updatedAt,
       String userName,
+      String userImageURL,
       String uid});
 }
 
@@ -121,6 +129,7 @@ class __$$_FirestoreUserCopyWithImpl<$Res>
     Object? email = null,
     Object? updatedAt = freezed,
     Object? userName = null,
+    Object? userImageURL = null,
     Object? uid = null,
   }) {
     return _then(_$_FirestoreUser(
@@ -140,6 +149,10 @@ class __$$_FirestoreUserCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      userImageURL: null == userImageURL
+          ? _value.userImageURL
+          : userImageURL // ignore: cast_nullable_to_non_nullable
+              as String,
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -156,6 +169,7 @@ class _$_FirestoreUser implements _FirestoreUser {
       required this.email,
       required this.updatedAt,
       required this.userName,
+      required this.userImageURL,
       required this.uid});
 
   factory _$_FirestoreUser.fromJson(Map<String, dynamic> json) =>
@@ -170,11 +184,13 @@ class _$_FirestoreUser implements _FirestoreUser {
   @override
   final String userName;
   @override
+  final String userImageURL;
+  @override
   final String uid;
 
   @override
   String toString() {
-    return 'FirestoreUser(createdAt: $createdAt, email: $email, updatedAt: $updatedAt, userName: $userName, uid: $uid)';
+    return 'FirestoreUser(createdAt: $createdAt, email: $email, updatedAt: $updatedAt, userName: $userName, userImageURL: $userImageURL, uid: $uid)';
   }
 
   @override
@@ -187,6 +203,8 @@ class _$_FirestoreUser implements _FirestoreUser {
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
+            (identical(other.userImageURL, userImageURL) ||
+                other.userImageURL == userImageURL) &&
             (identical(other.uid, uid) || other.uid == uid));
   }
 
@@ -198,6 +216,7 @@ class _$_FirestoreUser implements _FirestoreUser {
       email,
       const DeepCollectionEquality().hash(updatedAt),
       userName,
+      userImageURL,
       uid);
 
   @JsonKey(ignore: true)
@@ -220,6 +239,7 @@ abstract class _FirestoreUser implements FirestoreUser {
       required final String email,
       required final dynamic updatedAt,
       required final String userName,
+      required final String userImageURL,
       required final String uid}) = _$_FirestoreUser;
 
   factory _FirestoreUser.fromJson(Map<String, dynamic> json) =
@@ -233,6 +253,8 @@ abstract class _FirestoreUser implements FirestoreUser {
   dynamic get updatedAt;
   @override
   String get userName;
+  @override
+  String get userImageURL;
   @override
   String get uid;
   @override

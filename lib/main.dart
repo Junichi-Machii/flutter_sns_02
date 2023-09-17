@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_sns_u_02/details/sns_drawer.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_sns_u_02/constants/strings.dart';
@@ -62,6 +63,9 @@ class MyHomePage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
+      ),
+      drawer: SNSDrawer(
+        mainModel: mainModel,
       ),
       body: mainModel.isLoading
           ? const Center(
