@@ -23,8 +23,10 @@ class SignUpModel extends ChangeNotifier {
   String password = '';
   bool isObscure = true;
 
-  Future<void> createFirestoreUser(
-      {required BuildContext context, required String uid}) async {
+  Future<void> createFirestoreUser({
+    required BuildContext context,
+    required String uid,
+  }) async {
     counter++;
     var uuid = Uuid();
     final dynamic now = Timestamp.now();
@@ -33,6 +35,7 @@ class SignUpModel extends ChangeNotifier {
       email: email,
       updatedAt: now,
       uid: uid,
+      userImageURL: 'userImageURL',
       userName: 'new user',
     );
     final Map<String, dynamic> userData = firestoreUser.toJson();

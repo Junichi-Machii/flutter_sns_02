@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'firestore_user.freezed.dart';
@@ -10,6 +11,7 @@ abstract class FirestoreUser with _$FirestoreUser {
     required String email,
     required dynamic updatedAt,
     required String userName,
+    required String userImageURL,
     required String uid,
   }) = _FirestoreUser;
   factory FirestoreUser.fromJson(Map<String, dynamic> json) =>

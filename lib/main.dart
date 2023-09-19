@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_sns_u_02/constants/themes.dart';
+import 'package:flutter_sns_u_02/details/sns_drawer.dart';
+import 'package:flutter_sns_u_02/models/themes_model.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_sns_u_02/constants/strings.dart';
@@ -26,32 +29,34 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final User? onceUser = FirebaseAuth.instance.currentUser;
+    final ThemeModel themeModel = ref.watch(themeProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: themeModel.isDarkTheme
+          ? darkThemeData(context: context)
+          : lightThemeData(context: context),
       home: onceUser == null
           ? LogInPage()
           : MyHomePage(
               title: 'Flutter Demo Home Page',
+              themeModel: themeModel,
             ),
     );
   }
 }
 
 class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.themeModel});
 
   final String title;
+  final ThemeModel themeModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // MainModelが起動してinit()が実行される
@@ -62,6 +67,10 @@ class MyHomePage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
+      ),
+      drawer: SNSDrawer(
+        themeModel: themeModel,
+        mainModel: mainModel,
       ),
       body: mainModel.isLoading
           ? const Center(

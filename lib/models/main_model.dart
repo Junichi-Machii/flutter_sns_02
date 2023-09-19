@@ -58,5 +58,6 @@ class MainModel extends ChangeNotifier {
     await FirebaseAuth.instance.signOut();
     setCurrentUser();
     routes.toLogInPage(context: context);
+    notifyListeners();
   }
 }
