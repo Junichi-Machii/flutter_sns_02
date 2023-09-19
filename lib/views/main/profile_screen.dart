@@ -29,9 +29,12 @@ class ProfileScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(160),
                 child: Image.file(
                   profileModel.croppedFile!,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
+        SizedBox(
+          height: 8,
+        ),
         RoundedButton(
           onPressed: () async => await profileModel.uploadUserImage(
               currentUserDoc: mainModel.currentUserDoc),
