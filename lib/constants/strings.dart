@@ -12,6 +12,7 @@ const String drawerThemeText = 'Theme';
 const String sigInText = 'Sign In';
 const String loginText = 'Log In';
 const String logOut = 'Log Out';
+const String upLoadText = 'Up Loading...';
 
 //showSnackBar text
 const String showSnackBarAddUserText = 'User Created';
