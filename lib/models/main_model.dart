@@ -24,6 +24,9 @@ class MainModel extends ChangeNotifier {
 
   late FirestoreUser firestoreUser;
 
+  //tokens
+  List<String> followingUids = [];
+
   // MainModelが起動した時の処理
   MainModel() {
     init();
