@@ -10,6 +10,7 @@ import 'package:flutter_sns_u_02/constants/others.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/constants/strings.dart';
 import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
+import 'package:flutter_sns_u_02/domain/following_token/following_token.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,17 +54,42 @@ class ProfileModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void follow(
+  Future<void> follow(
       {required MainModel mainModel,
-      required FirestoreUser passiveFirestoreUser}) {
+      required FirestoreUser passiveFirestoreUser}) async {
     mainModel.followingUids.add(passiveFirestoreUser.uid);
     notifyListeners();
+    final String tokenId = returnUuidV4();
+    final FollowingToken followingToken = FollowingToken(
+      createdAt: Timestamp.now(),
+      passiveUid: passiveFirestoreUser.uid,
+      tokenId: tokenId,
+    );
+    final FirestoreUser activeUser = mainModel.firestoreUser;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(activeUser.uid)
+        .collection("tokens")
+        .doc(tokenId)
+        .set(followingToken.toJson());
   }
 
-  void unfollow(
+  Future<void> unfollow(
       {required MainModel mainModel,
-      required FirestoreUser passiveFirestoreUser}) {
+      required FirestoreUser passiveFirestoreUser}) async {
     mainModel.followingUids.remove(passiveFirestoreUser.uid);
     notifyListeners();
+    //followしているTokenを取得する
+    final FirestoreUser activeUser = mainModel.firestoreUser;
+
+    final qshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(activeUser.uid)
+        .collection("tokens")
+        .where("passiveUid", isEqualTo: passiveFirestoreUser.uid)
+        .get();
+    final docs = qshot.docs;
+    final DocumentSnapshot<Map<String, dynamic>> token = docs.first;
+    await token.reference.delete();
   }
 }
