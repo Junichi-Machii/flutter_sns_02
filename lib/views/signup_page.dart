@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // package
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/constants/strings.dart';
+import 'package:flutter_sns_u_02/details/rounded_button.dart';
 import 'package:flutter_sns_u_02/details/rounded_password_field.dart';
 
 //models
@@ -46,17 +47,15 @@ class SignUpPage extends ConsumerWidget {
             obscureText: signUpModel.isObscure,
             toggleObscureText: () => signUpModel.toggleIsObscure(),
           ),
-          Center(
-            child: signUpModel.currentUser == null
-                ? Container(child: Text('nullです'))
-                : Text('null じゃない'),
-          ),
+          const SizedBox(height: 18),
+          RoundedButton(
+            onPressed: () async =>
+                await signUpModel.createUser(context: context),
+            color: Theme.of(context).colorScheme.onPrimary,
+            text: signUpTitle,
+            widthRate: 0.85,
+          )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async => await signUpModel.createUser(context: context),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add_circle),
       ),
     );
   }
