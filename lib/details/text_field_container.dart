@@ -27,7 +27,7 @@ class TextFieldContainer extends StatelessWidget {
             // ),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.onSurface,
                 blurRadius: 8.0,
               )
             ],

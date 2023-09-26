@@ -26,6 +26,7 @@ class RoundedPasswordField extends StatelessWidget {
     return TextFieldContainer(
       color: color,
       child: TextFormField(
+        style: TextStyle(color: Colors.black87),
         textAlignVertical: TextAlignVertical.center,
         keyboardType: TextInputType.visiblePassword,
         onChanged: onChanged,
@@ -43,8 +44,14 @@ class RoundedPasswordField extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: InkWell(
               child: obscureText
-                  ? Icon(Icons.visibility_off)
-                  : Icon(Icons.visibility),
+                  ? Icon(
+                      Icons.visibility_off,
+                      color: Colors.black54,
+                    )
+                  : Icon(
+                      Icons.visibility,
+                      color: Colors.black54,
+                    ),
               onTap: toggleObscureText,
             ),
           ),

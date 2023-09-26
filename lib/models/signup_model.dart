@@ -7,6 +7,8 @@ import 'package:flutter_sns_u_02/constants/strings.dart';
 // packages
 import 'package:uuid/uuid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+//constants
+import 'package:flutter_sns_u_02/constants/routes.dart' as route;
 
 //domain
 import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
@@ -60,6 +62,7 @@ class SignUpModel extends ChangeNotifier {
       final User? user = resule.user;
       final String uid = user!.uid;
       await createFirestoreUser(context: context, uid: uid);
+      route.toMyApp(context: context);
     } on FirebaseAuthException catch (e) {
       print(e.toString());
     }
