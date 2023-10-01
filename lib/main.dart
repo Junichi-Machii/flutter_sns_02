@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_sns_u_02/constants/themes.dart';
 import 'package:flutter_sns_u_02/details/sns_drawer.dart';
+import 'package:flutter_sns_u_02/models/create_post_modesl.dart';
 import 'package:flutter_sns_u_02/models/themes_model.dart';
 import 'firebase_options.dart';
 
@@ -63,10 +64,18 @@ class MyHomePage extends ConsumerWidget {
     final MainModel mainModel = ref.watch(mainProvider);
     final SNSBottomNavigationBarModel snsBottomNavigationBarModel =
         ref.watch(snsBottomNavigationBarProvider);
+    final CreatePostModel createPostModel = ref.watch(createPostProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.new_label),
+        onPressed: () {
+          return createPostModel.showPostDialog(context: context);
+        },
       ),
       drawer: SNSDrawer(
         themeModel: themeModel,
