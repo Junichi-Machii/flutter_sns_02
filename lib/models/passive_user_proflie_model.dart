@@ -25,9 +25,9 @@ class PassiveUserProfileModel extends ChangeNotifier {
       required FirestoreUser passiveUser}) async {
     mainModel.followingUids.add(passiveUser.uid);
     notifyListeners();
+    final String tokenId = returnUuidV4();
     final Timestamp now = Timestamp.now();
     //following
-    final String tokenId = returnUuidV4();
     final FollowingToken followingToken = FollowingToken(
       createdAt: now,
       passiveUid: passiveUser.uid,
@@ -43,13 +43,6 @@ class PassiveUserProfileModel extends ChangeNotifier {
           followingToken.toJson(),
         );
     //Firestore のカウント
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(activeUser.uid)
-        .update({
-      //Firestoreの値を＋１
-      "followingCount": FieldValue.increment(1),
-    });
 
     //follower
     final Follower follower = Follower(
@@ -62,15 +55,6 @@ class PassiveUserProfileModel extends ChangeNotifier {
         .collection("followers")
         .doc(activeUser.uid)
         .set(follower.toJson());
-
-    //フォロー しているuserの数を＋１
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(passiveUser.uid)
-        .update({
-      //Firestoreの値を＋１
-      "followerCount": FieldValue.increment(1),
-    });
   }
 
   Future<void> unfollow(
@@ -91,33 +75,12 @@ class PassiveUserProfileModel extends ChangeNotifier {
     final List<DocumentSnapshot<Map<String, dynamic>>> docs = qshot.docs;
     final DocumentSnapshot<Map<String, dynamic>> token = docs.first;
     await token.reference.delete();
-    // await FirebaseFirestore.instance
-    //     .collection("users")
-    //     .doc(passiveUser.uid)
-    //     .collection("followers")
-    //     .doc(activeUser.uid)
-    //     .delete();
 
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(activeUser.uid)
-        .update({
-      //Firestoreの値を -１
-      "followingCount": FieldValue.increment(-1),
-    });
     await FirebaseFirestore.instance
         .collection("users")
         .doc(passiveUser.uid)
         .collection("followers")
         .doc(activeUser.uid)
         .delete();
-    //フォロー しているuserの数を -１
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(passiveUser.uid)
-        .update({
-      //Firestoreの値を -１
-      "followerCount": FieldValue.increment(-1),
-    });
   }
 }

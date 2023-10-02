@@ -49,9 +49,9 @@ dependencies:
   flutter_launcher_icons:
   flash:
   uuid:
-  image_picker: ^1.0.4
+  image_picker: 
   flutter_svg:
-  firebase_storage: ^11.2.6
+  firebase_storage: 
   firebase_crashlytics:
   fluttertoast:
   material_floating_search_bar:
