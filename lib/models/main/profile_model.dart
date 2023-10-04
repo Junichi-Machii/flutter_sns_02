@@ -61,10 +61,10 @@ class ProfileModel extends ChangeNotifier {
     notifyListeners();
     final String tokenId = returnUuidV4();
     final FollowingToken followingToken = FollowingToken(
-      createdAt: Timestamp.now(),
-      passiveUid: passiveFirestoreUser.uid,
-      tokenId: tokenId,
-    );
+        createdAt: Timestamp.now(),
+        passiveUid: passiveFirestoreUser.uid,
+        tokenId: tokenId,
+        tokenType: "following");
     final FirestoreUser activeUser = mainModel.firestoreUser;
     await FirebaseFirestore.instance
         .collection("users")

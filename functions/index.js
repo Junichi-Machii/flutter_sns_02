@@ -47,3 +47,22 @@ exports.onFollowerDelete = functions.firestore.document('users/{uid}/followers/{
         });
     }
 );
+
+exports.onPostLikeCrete = functions.firestore.document('users/{uid}/posts/{postId}/postLikes/{activeUid}').onCreate(
+    async (snap,_) => {
+        const newValue = snap.data();
+        await newValue.postRef.update({
+            "likeCount":admin.firestore.FieldValue.increment(plusOne),
+        });
+    
+    }
+);
+
+exports.onPostLikeDelete = functions.firestore.document('users/{uid}/posts/{postId}/postLikes/{activeUid}').onDelete(
+    async (snap,_) =>{
+        const newValue = snap.data();
+        await newValue.postRef.update({
+            "likeCount":admin.firestore.FieldValue.increment(minusOne),
+        });
+    }
+);
