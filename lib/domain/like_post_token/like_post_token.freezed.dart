@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'following_token.dart';
+part of 'like_post_token.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,37 +14,46 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-FollowingToken _$FollowingTokenFromJson(Map<String, dynamic> json) {
-  return _FollowingToken.fromJson(json);
+LikePostToken _$LikePostTokenFromJson(Map<String, dynamic> json) {
+  return _LikePostToken.fromJson(json);
 }
 
 /// @nodoc
-mixin _$FollowingToken {
+mixin _$LikePostToken {
   dynamic get createdAt => throw _privateConstructorUsedError;
+  String get activeUid => throw _privateConstructorUsedError;
   String get passiveUid => throw _privateConstructorUsedError;
+  dynamic get postRef => throw _privateConstructorUsedError;
+  String get postId => throw _privateConstructorUsedError;
   String get tokenId => throw _privateConstructorUsedError;
   String get tokenType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FollowingTokenCopyWith<FollowingToken> get copyWith =>
+  $LikePostTokenCopyWith<LikePostToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FollowingTokenCopyWith<$Res> {
-  factory $FollowingTokenCopyWith(
-          FollowingToken value, $Res Function(FollowingToken) then) =
-      _$FollowingTokenCopyWithImpl<$Res, FollowingToken>;
+abstract class $LikePostTokenCopyWith<$Res> {
+  factory $LikePostTokenCopyWith(
+          LikePostToken value, $Res Function(LikePostToken) then) =
+      _$LikePostTokenCopyWithImpl<$Res, LikePostToken>;
   @useResult
   $Res call(
-      {dynamic createdAt, String passiveUid, String tokenId, String tokenType});
+      {dynamic createdAt,
+      String activeUid,
+      String passiveUid,
+      dynamic postRef,
+      String postId,
+      String tokenId,
+      String tokenType});
 }
 
 /// @nodoc
-class _$FollowingTokenCopyWithImpl<$Res, $Val extends FollowingToken>
-    implements $FollowingTokenCopyWith<$Res> {
-  _$FollowingTokenCopyWithImpl(this._value, this._then);
+class _$LikePostTokenCopyWithImpl<$Res, $Val extends LikePostToken>
+    implements $LikePostTokenCopyWith<$Res> {
+  _$LikePostTokenCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -55,7 +64,10 @@ class _$FollowingTokenCopyWithImpl<$Res, $Val extends FollowingToken>
   @override
   $Res call({
     Object? createdAt = freezed,
+    Object? activeUid = null,
     Object? passiveUid = null,
+    Object? postRef = freezed,
+    Object? postId = null,
     Object? tokenId = null,
     Object? tokenType = null,
   }) {
@@ -64,9 +76,21 @@ class _$FollowingTokenCopyWithImpl<$Res, $Val extends FollowingToken>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      activeUid: null == activeUid
+          ? _value.activeUid
+          : activeUid // ignore: cast_nullable_to_non_nullable
+              as String,
       passiveUid: null == passiveUid
           ? _value.passiveUid
           : passiveUid // ignore: cast_nullable_to_non_nullable
+              as String,
+      postRef: freezed == postRef
+          ? _value.postRef
+          : postRef // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      postId: null == postId
+          ? _value.postId
+          : postId // ignore: cast_nullable_to_non_nullable
               as String,
       tokenId: null == tokenId
           ? _value.tokenId
@@ -81,41 +105,62 @@ class _$FollowingTokenCopyWithImpl<$Res, $Val extends FollowingToken>
 }
 
 /// @nodoc
-abstract class _$$_FollowingTokenCopyWith<$Res>
-    implements $FollowingTokenCopyWith<$Res> {
-  factory _$$_FollowingTokenCopyWith(
-          _$_FollowingToken value, $Res Function(_$_FollowingToken) then) =
-      __$$_FollowingTokenCopyWithImpl<$Res>;
+abstract class _$$_LikePostTokenCopyWith<$Res>
+    implements $LikePostTokenCopyWith<$Res> {
+  factory _$$_LikePostTokenCopyWith(
+          _$_LikePostToken value, $Res Function(_$_LikePostToken) then) =
+      __$$_LikePostTokenCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {dynamic createdAt, String passiveUid, String tokenId, String tokenType});
+      {dynamic createdAt,
+      String activeUid,
+      String passiveUid,
+      dynamic postRef,
+      String postId,
+      String tokenId,
+      String tokenType});
 }
 
 /// @nodoc
-class __$$_FollowingTokenCopyWithImpl<$Res>
-    extends _$FollowingTokenCopyWithImpl<$Res, _$_FollowingToken>
-    implements _$$_FollowingTokenCopyWith<$Res> {
-  __$$_FollowingTokenCopyWithImpl(
-      _$_FollowingToken _value, $Res Function(_$_FollowingToken) _then)
+class __$$_LikePostTokenCopyWithImpl<$Res>
+    extends _$LikePostTokenCopyWithImpl<$Res, _$_LikePostToken>
+    implements _$$_LikePostTokenCopyWith<$Res> {
+  __$$_LikePostTokenCopyWithImpl(
+      _$_LikePostToken _value, $Res Function(_$_LikePostToken) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? createdAt = freezed,
+    Object? activeUid = null,
     Object? passiveUid = null,
+    Object? postRef = freezed,
+    Object? postId = null,
     Object? tokenId = null,
     Object? tokenType = null,
   }) {
-    return _then(_$_FollowingToken(
+    return _then(_$_LikePostToken(
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      activeUid: null == activeUid
+          ? _value.activeUid
+          : activeUid // ignore: cast_nullable_to_non_nullable
+              as String,
       passiveUid: null == passiveUid
           ? _value.passiveUid
           : passiveUid // ignore: cast_nullable_to_non_nullable
+              as String,
+      postRef: freezed == postRef
+          ? _value.postRef
+          : postRef // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      postId: null == postId
+          ? _value.postId
+          : postId // ignore: cast_nullable_to_non_nullable
               as String,
       tokenId: null == tokenId
           ? _value.tokenId
@@ -131,51 +176,51 @@ class __$$_FollowingTokenCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FollowingToken
-    with DiagnosticableTreeMixin
-    implements _FollowingToken {
-  const _$_FollowingToken(
+class _$_LikePostToken implements _LikePostToken {
+  const _$_LikePostToken(
       {required this.createdAt,
+      required this.activeUid,
       required this.passiveUid,
+      required this.postRef,
+      required this.postId,
       required this.tokenId,
       required this.tokenType});
 
-  factory _$_FollowingToken.fromJson(Map<String, dynamic> json) =>
-      _$$_FollowingTokenFromJson(json);
+  factory _$_LikePostToken.fromJson(Map<String, dynamic> json) =>
+      _$$_LikePostTokenFromJson(json);
 
   @override
   final dynamic createdAt;
   @override
+  final String activeUid;
+  @override
   final String passiveUid;
+  @override
+  final dynamic postRef;
+  @override
+  final String postId;
   @override
   final String tokenId;
   @override
   final String tokenType;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FollowingToken(createdAt: $createdAt, passiveUid: $passiveUid, tokenId: $tokenId, tokenType: $tokenType)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'FollowingToken'))
-      ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('passiveUid', passiveUid))
-      ..add(DiagnosticsProperty('tokenId', tokenId))
-      ..add(DiagnosticsProperty('tokenType', tokenType));
+  String toString() {
+    return 'LikePostToken(createdAt: $createdAt, activeUid: $activeUid, passiveUid: $passiveUid, postRef: $postRef, postId: $postId, tokenId: $tokenId, tokenType: $tokenType)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FollowingToken &&
+            other is _$_LikePostToken &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
+            (identical(other.activeUid, activeUid) ||
+                other.activeUid == activeUid) &&
             (identical(other.passiveUid, passiveUid) ||
                 other.passiveUid == passiveUid) &&
+            const DeepCollectionEquality().equals(other.postRef, postRef) &&
+            (identical(other.postId, postId) || other.postId == postId) &&
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId) &&
             (identical(other.tokenType, tokenType) ||
                 other.tokenType == tokenType));
@@ -186,44 +231,56 @@ class _$_FollowingToken
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(createdAt),
+      activeUid,
       passiveUid,
+      const DeepCollectionEquality().hash(postRef),
+      postId,
       tokenId,
       tokenType);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FollowingTokenCopyWith<_$_FollowingToken> get copyWith =>
-      __$$_FollowingTokenCopyWithImpl<_$_FollowingToken>(this, _$identity);
+  _$$_LikePostTokenCopyWith<_$_LikePostToken> get copyWith =>
+      __$$_LikePostTokenCopyWithImpl<_$_LikePostToken>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FollowingTokenToJson(
+    return _$$_LikePostTokenToJson(
       this,
     );
   }
 }
 
-abstract class _FollowingToken implements FollowingToken {
-  const factory _FollowingToken(
+abstract class _LikePostToken implements LikePostToken {
+  const factory _LikePostToken(
       {required final dynamic createdAt,
+      required final String activeUid,
       required final String passiveUid,
+      required final dynamic postRef,
+      required final String postId,
       required final String tokenId,
-      required final String tokenType}) = _$_FollowingToken;
+      required final String tokenType}) = _$_LikePostToken;
 
-  factory _FollowingToken.fromJson(Map<String, dynamic> json) =
-      _$_FollowingToken.fromJson;
+  factory _LikePostToken.fromJson(Map<String, dynamic> json) =
+      _$_LikePostToken.fromJson;
 
   @override
   dynamic get createdAt;
   @override
+  String get activeUid;
+  @override
   String get passiveUid;
+  @override
+  dynamic get postRef;
+  @override
+  String get postId;
   @override
   String get tokenId;
   @override
   String get tokenType;
   @override
   @JsonKey(ignore: true)
-  _$$_FollowingTokenCopyWith<_$_FollowingToken> get copyWith =>
+  _$$_LikePostTokenCopyWith<_$_LikePostToken> get copyWith =>
       throw _privateConstructorUsedError;
 }

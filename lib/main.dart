@@ -74,7 +74,8 @@ class MyHomePage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.new_label),
         onPressed: () {
-          return createPostModel.showPostDialog(context: context);
+          return createPostModel.showPostDialog(
+              context: context, mainModel: mainModel);
         },
       ),
       drawer: SNSDrawer(
@@ -90,7 +91,7 @@ class MyHomePage extends ConsumerWidget {
               onPageChanged: (index) =>
                   snsBottomNavigationBarModel.onPageChanged(index: index),
               children: [
-                HomeScreen(),
+                HomeScreen(mainModel: mainModel),
                 SearchScreen(),
                 ProfileScreen(
                   mainModel: mainModel,

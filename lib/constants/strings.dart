@@ -8,6 +8,7 @@ const String corpperTitle = 'Corpper';
 const String drawerAccountTitle = 'Account';
 const String drawerThemeText = 'Theme';
 const String profileTitle = 'Profile';
+const String adminPageTitle = 'Admin';
 
 //  text
 const String sigInText = 'Sign In';

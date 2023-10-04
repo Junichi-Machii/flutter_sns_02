@@ -24,7 +24,6 @@ class PassiveUserProfileModel extends ChangeNotifier {
       {required MainModel mainModel,
       required FirestoreUser passiveUser}) async {
     mainModel.followingUids.add(passiveUser.uid);
-    notifyListeners();
     final String tokenId = returnUuidV4();
     final Timestamp now = Timestamp.now();
     //following
@@ -32,8 +31,10 @@ class PassiveUserProfileModel extends ChangeNotifier {
       createdAt: now,
       passiveUid: passiveUser.uid,
       tokenId: tokenId,
+      tokenType: "following",
     );
     final FirestoreUser activeUser = mainModel.firestoreUser;
+    notifyListeners();
     await FirebaseFirestore.instance
         .collection("users")
         .doc(activeUser.uid)

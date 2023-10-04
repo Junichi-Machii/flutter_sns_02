@@ -19,13 +19,14 @@ class MainModel extends ChangeNotifier {
 
   int counter = 0;
 
-  User? currentUser = null;
+  late User? currentUser;
   late DocumentSnapshot<Map<String, dynamic>> currentUserDoc;
 
   late FirestoreUser firestoreUser;
 
   //tokens
   List<String> followingUids = [];
+  List<String> likePostIds = [];
 
   // MainModelが起動した時の処理
   MainModel() {

@@ -1,5 +1,5 @@
 // package
-import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_sns_u_02/constants/strings.dart';
@@ -35,3 +35,5 @@ Future<CroppedFile?> returnCroppedFile({required XFile? xFile}) async {
   );
   return result;
 }
+
+User? returnAuthUser() => FirebaseAuth.instance.currentUser;

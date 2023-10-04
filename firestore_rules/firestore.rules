@@ -19,6 +19,13 @@ service cloud.firestore {
       match /followers/{followerUid} {
         allow create, delete: if isTheSameUserOrAdmin(followerUid);
       }
+      match /posts/{postId} {
+        allow read: if isAuthenticated();
+        allow create, delete: if isTheSameUserOrAdmin(uid);
+        match /postLikes/{activeUid} {
+          allow create, delete: if isTheSameUserOrAdmin(activeUid);
+        }
+      }
     }
   } 
 

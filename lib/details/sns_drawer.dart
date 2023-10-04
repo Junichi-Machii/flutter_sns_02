@@ -29,7 +29,12 @@ class SNSDrawer extends StatelessWidget {
               value: themeModel.isDarkTheme,
               onChanged: (value) => themeModel.setIsDarkTheme(value: value),
             ),
-          )
+          ),
+          if (mainModel.firestoreUser.isAdmin)
+            ListTile(
+              title: const Text(adminPageTitle),
+              onTap: () => routes.toAdminPage(context: context),
+            ),
         ],
       ),
     );
