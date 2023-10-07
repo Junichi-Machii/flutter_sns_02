@@ -1,41 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 
 //package
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flash/flash_helper.dart';
-import 'package:flash/flash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-//constants
-import 'package:flutter_sns_u_02/constants/strings.dart';
-//domain
-import 'package:flutter_sns_u_02/domain/post/post.dart';
-//model
+import 'package:flutter_sns_u_02/constants/voids.dart' as voids;
 import 'package:flutter_sns_u_02/models/main_model.dart';
 
-final createPostProvider = ChangeNotifierProvider((ref) => CreatePostModel());
+final commentsProvider = ChangeNotifierProvider((ref) => CommentsModel());
 
-class CreatePostModel extends ChangeNotifier {
+class CommentsModel extends ChangeNotifier {
   final TextEditingController textEditingController = TextEditingController();
+  String comment = "";
 
-  String text = "";
-
-  void showPostDialog(
+  void showCommentDialog(
       {required BuildContext context, required MainModel mainModel}) {
-    context.showFlash<String>(
-      persistent: true,
-      barrierColor: Colors.black54,
-      barrierDismissible: true,
+    voids.showFlashDialog(
+      context: context,
+      mainModel: mainModel,
+      textEditingController: textEditingController,
+      onChanged: (value) => comment = value,
+      titleString: "Comments",
+      indicatorColor: Colors.black87,
+      barrierColor: const Color.fromARGB(255, 125, 150, 163).withOpacity(0.5),
       builder: (context, controller) => FlashBar(
         controller: controller,
         clipBehavior: Clip.antiAlias,
         indicatorColor: Colors.red,
         icon: Icon(Icons.tips_and_updates_outlined),
-        title: Text('Post Title'),
+        title: Text('Comment'),
         content: Form(
           child: TextField(
             controller: textEditingController,
-            onChanged: (value) => text = value,
-            maxLength: 15,
+            onChanged: (value) => comment = value,
+            maxLength: 100,
           ),
         ),
         primaryAction: Column(
@@ -44,9 +43,9 @@ class CreatePostModel extends ChangeNotifier {
             IconButton(
               onPressed: () async {
                 if (textEditingController.text.isNotEmpty) {
-                  await createPost(currentUserDoc: mainModel.currentUserDoc);
+                  await createComment(context: context, mainModel: mainModel);
                   await controller.dismiss();
-                  text = "";
+                  comment = "";
                   textEditingController.text = "";
                 } else {
                   await controller.dismiss();
@@ -66,24 +65,6 @@ class CreatePostModel extends ChangeNotifier {
     );
   }
 
-  Future<void> createPost(
-      {required DocumentSnapshot<Map<String, dynamic>> currentUserDoc}) async {
-    final Timestamp now = Timestamp.now();
-    final String activeUid = currentUserDoc.id;
-    final String postId = returnUuidV4();
-    final Post post = Post(
-      createdAt: now,
-      updatedAt: now,
-      hashTags: [],
-      imageURL: "",
-      likeCount: 0,
-      postId: postId,
-      text: text,
-      uid: activeUid,
-    );
-    await currentUserDoc.reference
-        .collection("posts")
-        .doc(postId)
-        .set(post.toJson());
-  }
+  Future<void> createComment(
+      {required BuildContext context, required mainModel}) async {}
 }
