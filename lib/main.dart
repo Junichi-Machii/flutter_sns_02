@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,8 +55,11 @@ class MyApp extends ConsumerWidget {
 }
 
 class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key, required this.title, required this.themeModel});
-
+  const MyHomePage({
+    super.key,
+    required this.title,
+    required this.themeModel,
+  });
   final String title;
   final ThemeModel themeModel;
   @override
@@ -91,7 +95,9 @@ class MyHomePage extends ConsumerWidget {
               onPageChanged: (index) =>
                   snsBottomNavigationBarModel.onPageChanged(index: index),
               children: [
-                HomeScreen(mainModel: mainModel),
+                HomeScreen(
+                  mainModel: mainModel,
+                ),
                 SearchScreen(),
                 ProfileScreen(
                   mainModel: mainModel,
