@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
+
 import 'package:flutter_sns_u_02/details/post_card.dart';
-import 'package:flutter_sns_u_02/details/post_like_button.dart';
-import 'package:flutter_sns_u_02/details/rounded_button.dart';
-import 'package:flutter_sns_u_02/details/user_image.dart';
+import 'package:flutter_sns_u_02/details/reload_screen.dart';
+
 import 'package:flutter_sns_u_02/models/coments_model.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:flutter_sns_u_02/models/posts_model.dart';
-// import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'package:flutter_sns_u_02/models/main/home_model.dart';
+
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -31,19 +30,7 @@ class HomeScreen extends ConsumerWidget {
         GlobalKey<RefreshIndicatorState>();
 
     return homeModel.postDocs.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: RoundedButton(
-                  onPressed: () async => homeModel.onReload(),
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  text: "Reload",
-                  widthRate: 0.85,
-                ),
-              )
-            ],
-          )
+        ? ReloadScreen(homeModel: homeModel)
         : Column(
             children: [
               Expanded(
