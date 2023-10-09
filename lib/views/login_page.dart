@@ -34,6 +34,7 @@ class LogInPage extends ConsumerWidget {
             color: Colors.white,
             prefixIcon: const Icon(Icons.email),
             hintText: hintEmailText,
+            labelText: 'Email',
           ),
           RoundedPasswordField(
             onChanged: (text) => loginModel.password = text,

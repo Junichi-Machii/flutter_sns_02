@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
@@ -7,7 +6,7 @@ import 'package:flutter_sns_u_02/details/rounded_button.dart';
 import 'package:flutter_sns_u_02/details/user_image.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:flutter_sns_u_02/models/posts_model.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+// import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:flutter_sns_u_02/models/main/home_model.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
@@ -25,6 +24,8 @@ class HomeScreen extends ConsumerWidget {
     final HomeModel homeModel = ref.watch(homeProvider);
     final PostsModel postsModel = ref.watch(postsProvider);
     final postdocs = homeModel.postDocs;
+    final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+        GlobalKey<RefreshIndicatorState>();
 
     return homeModel.postDocs.isEmpty
         ? Column(
@@ -43,13 +44,16 @@ class HomeScreen extends ConsumerWidget {
         : Column(
             children: [
               Expanded(
-                child: SmartRefresher(
-                  controller: homeModel.refreshController,
-                  enablePullDown: true,
-                  enablePullUp: true,
+                child: RefreshIndicator(
+                  key: refreshIndicatorKey,
+                  color: Colors.white,
+                  backgroundColor: Colors.blue,
+                  // controller: homeModel.refreshController,
+                  // enablePullDown: true,
+                  // enablePullUp: true,
                   onRefresh: homeModel.onRefresh,
-                  onLoading: homeModel.onLoading,
-                  header: WaterDropHeader(),
+                  // onLoading: homeModel.onLoading,
+                  // header: WaterDropHeader(),
                   child: ListView.builder(
                     itemCount: postdocs.length,
                     itemBuilder: (context, index) {

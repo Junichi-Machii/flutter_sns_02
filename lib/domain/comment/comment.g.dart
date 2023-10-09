@@ -1,34 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'post.dart';
+part of 'comment.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Post _$$_PostFromJson(Map<String, dynamic> json) => _$_Post(
+_$_Comment _$$_CommentFromJson(Map<String, dynamic> json) => _$_Comment(
       createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      hashTags:
-          (json['hashTags'] as List<dynamic>).map((e) => e as String).toList(),
-      imageURL: json['imageURL'] as String,
+      postCommentReplyCount: json['postCommentReplyCount'] as int,
       likeCount: json['likeCount'] as int,
+      comment: json['comment'] as String,
       userName: json['userName'] as String,
       userImageURL: json['userImageURL'] as String,
-      postId: json['postId'] as String,
-      text: json['text'] as String,
       uid: json['uid'] as String,
+      postCommentId: json['postCommentId'] as String,
     );
 
-Map<String, dynamic> _$$_PostToJson(_$_Post instance) => <String, dynamic>{
+Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
+    <String, dynamic>{
       'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
-      'hashTags': instance.hashTags,
-      'imageURL': instance.imageURL,
+      'postCommentReplyCount': instance.postCommentReplyCount,
       'likeCount': instance.likeCount,
+      'comment': instance.comment,
       'userName': instance.userName,
       'userImageURL': instance.userImageURL,
-      'postId': instance.postId,
-      'text': instance.text,
       'uid': instance.uid,
+      'postCommentId': instance.postCommentId,
     };

@@ -27,6 +27,7 @@ const String loadingText = 'Loading...';
 //hinttext
 const String hintEmailText = 'Email';
 const String hintPasswordText = 'Password';
+const String hintUserNameText = 'Your user name';
 
 // firebaseStore key
 const String usersFieldKey = 'users';

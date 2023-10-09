@@ -7,6 +7,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 //constants
 import 'package:flutter_sns_u_02/constants/strings.dart';
+import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 //domain
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 //model
@@ -19,8 +20,10 @@ class CreatePostModel extends ChangeNotifier {
 
   String text = "";
 
-  void showPostDialog(
-      {required BuildContext context, required MainModel mainModel}) {
+  void showPostDialog({
+    required BuildContext context,
+    required MainModel mainModel,
+  }) {
     context.showFlash<String>(
       persistent: true,
       barrierColor: Colors.black54,
@@ -44,7 +47,7 @@ class CreatePostModel extends ChangeNotifier {
             IconButton(
               onPressed: () async {
                 if (textEditingController.text.isNotEmpty) {
-                  await createPost(currentUserDoc: mainModel.currentUserDoc);
+                  await createPost(mainModel: mainModel);
                   await controller.dismiss();
                   text = "";
                   textEditingController.text = "";
@@ -66,9 +69,13 @@ class CreatePostModel extends ChangeNotifier {
     );
   }
 
-  Future<void> createPost(
-      {required DocumentSnapshot<Map<String, dynamic>> currentUserDoc}) async {
+  Future<void> createPost({
+    required MainModel mainModel,
+  }) async {
     final Timestamp now = Timestamp.now();
+    final DocumentSnapshot<Map<String, dynamic>> currentUserDoc =
+        mainModel.currentUserDoc;
+    final FirestoreUser firestoreUser = mainModel.firestoreUser;
     final String activeUid = currentUserDoc.id;
     final String postId = returnUuidV4();
     final Post post = Post(
@@ -76,6 +83,8 @@ class CreatePostModel extends ChangeNotifier {
       updatedAt: now,
       hashTags: [],
       imageURL: "",
+      userImageURL: firestoreUser.userImageURL,
+      userName: firestoreUser.userName,
       likeCount: 0,
       postId: postId,
       text: text,
