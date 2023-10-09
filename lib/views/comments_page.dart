@@ -36,7 +36,7 @@ class CommentsPage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.new_label),
         onPressed: () => commentsModel.showCommentDialog(
-            context: context, mainModel: mainModel),
+            postDoc: postDoc, context: context, mainModel: mainModel),
       ),
     );
   }

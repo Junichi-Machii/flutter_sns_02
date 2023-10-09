@@ -33,7 +33,8 @@ class SNSDrawer extends StatelessWidget {
           if (mainModel.firestoreUser.isAdmin)
             ListTile(
               title: const Text(adminPageTitle),
-              onTap: () => routes.toAdminPage(context: context),
+              onTap: () =>
+                  routes.toAdminPage(context: context, mainModel: mainModel),
             ),
         ],
       ),

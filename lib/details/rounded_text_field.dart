@@ -9,6 +9,7 @@ class RoundedTextField extends StatelessWidget {
     required this.controller,
     required this.color,
     required this.hintText,
+    required this.labelText,
     required this.prefixIcon,
   });
 
@@ -18,6 +19,7 @@ class RoundedTextField extends StatelessWidget {
   final Color color;
   final String hintText;
   final Widget? prefixIcon;
+  final String labelText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class RoundedTextField extends StatelessWidget {
         onChanged: onChanged,
         decoration: InputDecoration(
           hintText: hintText,
+          labelText: labelText,
           prefixIcon: prefixIcon,
           border: InputBorder.none,
         ),

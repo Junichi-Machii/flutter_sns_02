@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //package
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+// import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +24,7 @@ class HomeModel extends ChangeNotifier {
         .limit(30);
   }
 
-  final RefreshController refreshController = RefreshController();
+  // final RefreshController refreshController = RefreshController();
   HomeModel() {
     init();
   }
@@ -50,9 +50,9 @@ class HomeModel extends ChangeNotifier {
   Future<void> onRefresh() async {
     // monitor network fetch
     // await Future.delayed(Duration(milliseconds: 1000));
-
+    await Future<void>.delayed(const Duration(seconds: 3));
     // if failed,use refreshFailed()
-    refreshController.refreshCompleted();
+    // refreshController.refreshCompleted();
     if (postDocs.isNotEmpty) {
       final qshot = await returnQuery().endBeforeDocument(postDocs.first).get();
       final reversed = qshot.docs.reversed.toList();
@@ -76,7 +76,7 @@ class HomeModel extends ChangeNotifier {
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    refreshController.loadComplete();
+    // refreshController.loadComplete();
     if (postDocs.isNotEmpty) {
       final qshot = await returnQuery().startAfterDocument(postDocs.last).get();
       for (final postDoc in qshot.docs) {

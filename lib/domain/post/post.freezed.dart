@@ -25,6 +25,8 @@ mixin _$Post {
   List<String> get hashTags => throw _privateConstructorUsedError;
   String get imageURL => throw _privateConstructorUsedError;
   int get likeCount => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
+  String get userImageURL => throw _privateConstructorUsedError;
   String get postId => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
@@ -45,6 +47,8 @@ abstract class $PostCopyWith<$Res> {
       List<String> hashTags,
       String imageURL,
       int likeCount,
+      String userName,
+      String userImageURL,
       String postId,
       String text,
       String uid});
@@ -68,6 +72,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? hashTags = null,
     Object? imageURL = null,
     Object? likeCount = null,
+    Object? userName = null,
+    Object? userImageURL = null,
     Object? postId = null,
     Object? text = null,
     Object? uid = null,
@@ -93,6 +99,14 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImageURL: null == userImageURL
+          ? _value.userImageURL
+          : userImageURL // ignore: cast_nullable_to_non_nullable
+              as String,
       postId: null == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -121,6 +135,8 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       List<String> hashTags,
       String imageURL,
       int likeCount,
+      String userName,
+      String userImageURL,
       String postId,
       String text,
       String uid});
@@ -140,6 +156,8 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
     Object? hashTags = null,
     Object? imageURL = null,
     Object? likeCount = null,
+    Object? userName = null,
+    Object? userImageURL = null,
     Object? postId = null,
     Object? text = null,
     Object? uid = null,
@@ -165,6 +183,14 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userImageURL: null == userImageURL
+          ? _value.userImageURL
+          : userImageURL // ignore: cast_nullable_to_non_nullable
+              as String,
       postId: null == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -190,6 +216,8 @@ class _$_Post implements _Post {
       required final List<String> hashTags,
       required this.imageURL,
       required this.likeCount,
+      required this.userName,
+      required this.userImageURL,
       required this.postId,
       required this.text,
       required this.uid})
@@ -214,6 +242,10 @@ class _$_Post implements _Post {
   @override
   final int likeCount;
   @override
+  final String userName;
+  @override
+  final String userImageURL;
+  @override
   final String postId;
   @override
   final String text;
@@ -222,7 +254,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, updatedAt: $updatedAt, hashTags: $hashTags, imageURL: $imageURL, likeCount: $likeCount, postId: $postId, text: $text, uid: $uid)';
+    return 'Post(createdAt: $createdAt, updatedAt: $updatedAt, hashTags: $hashTags, imageURL: $imageURL, likeCount: $likeCount, userName: $userName, userImageURL: $userImageURL, postId: $postId, text: $text, uid: $uid)';
   }
 
   @override
@@ -237,6 +269,10 @@ class _$_Post implements _Post {
                 other.imageURL == imageURL) &&
             (identical(other.likeCount, likeCount) ||
                 other.likeCount == likeCount) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            (identical(other.userImageURL, userImageURL) ||
+                other.userImageURL == userImageURL) &&
             (identical(other.postId, postId) || other.postId == postId) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.uid, uid) || other.uid == uid));
@@ -251,6 +287,8 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(_hashTags),
       imageURL,
       likeCount,
+      userName,
+      userImageURL,
       postId,
       text,
       uid);
@@ -276,6 +314,8 @@ abstract class _Post implements Post {
       required final List<String> hashTags,
       required final String imageURL,
       required final int likeCount,
+      required final String userName,
+      required final String userImageURL,
       required final String postId,
       required final String text,
       required final String uid}) = _$_Post;
@@ -292,6 +332,10 @@ abstract class _Post implements Post {
   String get imageURL;
   @override
   int get likeCount;
+  @override
+  String get userName;
+  @override
+  String get userImageURL;
   @override
   String get postId;
   @override

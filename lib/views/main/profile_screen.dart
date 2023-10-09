@@ -21,6 +21,10 @@ class ProfileScreen extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Text(
+          firestoreUser.userName,
+          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+        ),
         profileModel.croppedFile == null
             ? UserImage(
                 length: 100.0,

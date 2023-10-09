@@ -17,6 +17,8 @@ class SignUpPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SignUpModel signUpModel = ref.watch(signUpProvider);
+    final TextEditingController userNameEditingController =
+        TextEditingController(text: signUpModel.userName);
     final TextEditingController emailEditingController =
         TextEditingController(text: signUpModel.email);
     final TextEditingController passwordEditingController =
@@ -32,11 +34,22 @@ class SignUpPage extends ConsumerWidget {
           RoundedTextField(
             color: Colors.white,
             // borderColor: Colors.black87,
+            keyboardType: TextInputType.name,
+            onChanged: (text) => signUpModel.userName = text,
+            controller: userNameEditingController,
+            prefixIcon: const Icon(Icons.person),
+            hintText: hintUserNameText,
+            labelText: 'user name',
+          ),
+          RoundedTextField(
+            color: Colors.white,
+            // borderColor: Colors.black87,
             keyboardType: TextInputType.emailAddress,
             onChanged: (text) => signUpModel.email = text,
             controller: emailEditingController,
             prefixIcon: const Icon(Icons.email),
             hintText: hintEmailText,
+            labelText: 'email',
           ),
           RoundedPasswordField(
             onChanged: (text) => signUpModel.password = text,
