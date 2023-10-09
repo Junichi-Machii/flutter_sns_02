@@ -30,11 +30,7 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    startLoading();
-    final query = returnQuery();
-    final qshot = await query.get();
-    postDocs = qshot.docs;
-    endLoading();
+    await onReload();
   }
 
   void startLoading() {
