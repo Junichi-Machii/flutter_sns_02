@@ -10,7 +10,7 @@ abstract class LikeCommentToken with _$LikeCommentToken {
     required String activeUid,
     required String passiveUid,
     required dynamic commentRef,
-    required String commentId,
+    required String postCommentId,
     required String tokenId,
     required String tokenType,
   }) = _LikeCommentToken;

@@ -23,24 +23,45 @@ class CommentLikeButton extends StatelessWidget {
   // final DocumentSnapshot<Map<String, dynamic>> commentDoc;
   @override
   Widget build(BuildContext context) {
-    return mainModel.likeCommentIds.contains(comment.comment)
-        ? InkWell(
-            child: const Icon(
-              Icons.favorite,
-              color: Colors.red,
-            ),
-            onTap: () async => await commentsModel.like(
-              commentRef: commentDoc.reference,
-              commentDoc: commentDoc,
-              mainModel: mainModel,
-              comment: comment,
-              post: post,
-            ),
-          )
-        : InkWell(
-            child: const Icon(
-              Icons.favorite_border,
-            ),
-            onTap: () {});
+    final bool isCommentLike =
+        mainModel.likeCommentIds.contains(comment.postCommentId);
+    final int plusOneCount = comment.likeCount + 1;
+    return Row(
+      children: [
+        Container(
+          child: isCommentLike
+              ? InkWell(
+                  child: const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+                  onTap: () async => await commentsModel.unLike(
+                    commentRef: commentDoc.reference,
+                    commentDoc: commentDoc,
+                    mainModel: mainModel,
+                    comment: comment,
+                    post: post,
+                  ),
+                )
+              : InkWell(
+                  child: const Icon(
+                    Icons.favorite_border,
+                  ),
+                  onTap: () async => await commentsModel.like(
+                      commentRef: commentDoc.reference,
+                      commentDoc: commentDoc,
+                      mainModel: mainModel,
+                      comment: comment,
+                      post: post),
+                ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          isCommentLike
+              ? plusOneCount.toString()
+              : comment.likeCount.toString(),
+        ),
+      ],
+    );
   }
 }

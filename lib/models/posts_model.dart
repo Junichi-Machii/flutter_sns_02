@@ -28,7 +28,6 @@ class PostsModel extends ChangeNotifier {
     final Timestamp now = Timestamp.now();
     final String activeUid = currentUserDoc.id;
     final String passiveUid = post.uid;
-    notifyListeners();
 
     //自分がいいねした印
     final LikePostToken likePostToken = LikePostToken(
@@ -40,6 +39,8 @@ class PostsModel extends ChangeNotifier {
       tokenId: tokenId,
       tokenType: likePostTokenTypeString,
     );
+    mainModel.likePostTokens.add(likePostToken);
+    notifyListeners();
     await currentUserDoc.reference
         .collection("tokens")
         .doc(tokenId)
@@ -69,19 +70,27 @@ class PostsModel extends ChangeNotifier {
     mainModel.likePostIds.remove(postId);
     final currentUserDoc = mainModel.currentUserDoc;
     final String activeUid = currentUserDoc.id;
+    final deleteLikePostToken = mainModel.likePostTokens
+        .where((element) => element.postId == postId)
+        .toList()
+        .first;
+    mainModel.likePostTokens.remove(deleteLikePostToken);
     notifyListeners();
 
     //自分がいいねした印を削除
-    final QuerySnapshot<Map<String, dynamic>> qshot = await FirebaseFirestore
-        .instance
-        .collection("users")
-        .doc(activeUid)
+    // final QuerySnapshot<Map<String, dynamic>> qshot = await FirebaseFirestore
+    //     .instance
+    //     .collection("users")
+    //     .doc(activeUid)
+    //     .collection("tokens")
+    //     .where("postId", isEqualTo: postId)
+    //     .get();
+    // final List<DocumentSnapshot<Map<String, dynamic>>> docs = qshot.docs;
+    // final DocumentSnapshot<Map<String, dynamic>> token = docs.first;
+    await currentUserDoc.reference
         .collection("tokens")
-        .where("postId", isEqualTo: postId)
-        .get();
-    final List<DocumentSnapshot<Map<String, dynamic>>> docs = qshot.docs;
-    final DocumentSnapshot<Map<String, dynamic>> token = docs.first;
-    await token.reference.delete();
+        .doc(deleteLikePostToken.tokenId)
+        .delete();
 
     //投稿がいいねされた時の印を削除
     await postDoc.reference.collection("postLikes").doc(activeUid).delete();

@@ -51,22 +51,12 @@ class PostCard extends StatelessWidget {
                       postDoc: postDoc,
                       post: post),
                 ),
-                SizedBox(
-                  height: 18,
-                ),
-                Row(
-                  children: [
-                    PostLikeButton(
-                        mainModel: mainModel,
-                        post: post,
-                        postsModel: postsModel,
-                        postDoc: postDoc),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(post.likeCount.toString())
-                  ],
-                ),
+                SizedBox(height: 18),
+                PostLikeButton(
+                    mainModel: mainModel,
+                    post: post,
+                    postsModel: postsModel,
+                    postDoc: postDoc),
               ],
             )
           ],

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 //package
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -193,25 +195,27 @@ class CommentsModel extends ChangeNotifier {
     required Post post,
   }) async {
     //setting
-    final String commentId = comment.postCommentId;
-    mainModel.likeCommentIds.add(commentId);
+    final String postCommentId = comment.postCommentId;
+    mainModel.likeCommentIds.add(postCommentId);
+
     final currentUserDoc = mainModel.currentUserDoc;
     final String tokenId = returnUuidV4();
     final Timestamp now = Timestamp.now();
     final String activeUid = currentUserDoc.id;
-    final String passiveUid = commentId;
-    notifyListeners();
-
-    //自分がコメントにいいねした印
+    final String passiveUid = comment.uid;
     final LikeCommentToken likeCommentToken = LikeCommentToken(
       createdAt: now,
       activeUid: activeUid,
       passiveUid: passiveUid,
       commentRef: commentDoc.reference,
-      commentId: commentId,
+      postCommentId: postCommentId,
       tokenId: tokenId,
       tokenType: likeCommentTokenTypeString,
     );
+    mainModel.likeCommentTokens.add(likeCommentToken);
+    notifyListeners();
+
+    //自分がコメントにいいねした印
     await currentUserDoc.reference
         .collection("tokens")
         .doc(tokenId)
@@ -222,12 +226,49 @@ class CommentsModel extends ChangeNotifier {
         activeUid: activeUid,
         createdAt: now,
         postCommentCreatorUid: comment.uid,
-        postCommentId: commentId,
+        postCommentId: postCommentId,
         postCommentRef: commentDoc.reference);
     //いいねする人が重複しないようにUidをdocumentIdとする
     await commentDoc.reference
         .collection("postCommentLikes")
         .doc(activeUid)
         .set(commentLike.toJson());
+  }
+
+  Future<void> unLike({
+    required DocumentReference<Map<String, dynamic>> commentRef,
+    required DocumentSnapshot<Map<String, dynamic>> commentDoc,
+    required MainModel mainModel,
+    required Comment comment,
+    required Post post,
+  }) async {
+    final String postCommentId = comment.postCommentId;
+    mainModel.likeCommentIds.remove(postCommentId);
+    final currentUserDoc = mainModel.currentUserDoc;
+    final String activeUid = currentUserDoc.id;
+    notifyListeners();
+
+    final deleteLikeCommentToken = mainModel.likeCommentTokens
+        .where((element) => element.postCommentId == postCommentId)
+        .toList()
+        .first;
+    mainModel.likeCommentTokens.remove(deleteLikeCommentToken);
+    notifyListeners();
+
+    await currentUserDoc.reference
+        .collection("tokens")
+        .doc(deleteLikeCommentToken.tokenId)
+        .delete();
+
+    //投稿がいいねされた時の印を削除
+    await commentDoc.reference
+        .collection("postCommentLikes")
+        .doc(activeUid)
+        .delete();
+
+    final DocumentReference<Map<String, dynamic>> postCommentRef =
+        deleteLikeCommentToken.commentRef;
+
+    await postCommentRef.collection("postCommentLikes").doc(activeUid).delete();
   }
 }
