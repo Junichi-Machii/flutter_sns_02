@@ -12,7 +12,7 @@ _$_LikeCommentToken _$$_LikeCommentTokenFromJson(Map<String, dynamic> json) =>
       activeUid: json['activeUid'] as String,
       passiveUid: json['passiveUid'] as String,
       commentRef: json['commentRef'],
-      commentId: json['commentId'] as String,
+      postCommentId: json['postCommentId'] as String,
       tokenId: json['tokenId'] as String,
       tokenType: json['tokenType'] as String,
     );
@@ -23,7 +23,7 @@ Map<String, dynamic> _$$_LikeCommentTokenToJson(_$_LikeCommentToken instance) =>
       'activeUid': instance.activeUid,
       'passiveUid': instance.passiveUid,
       'commentRef': instance.commentRef,
-      'commentId': instance.commentId,
+      'postCommentId': instance.postCommentId,
       'tokenId': instance.tokenId,
       'tokenType': instance.tokenType,
     };

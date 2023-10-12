@@ -87,6 +87,7 @@ class CreatePostModel extends ChangeNotifier {
       userName: firestoreUser.userName,
       likeCount: 0,
       postId: postId,
+      commentCount: 0,
       text: text,
       uid: activeUid,
     );

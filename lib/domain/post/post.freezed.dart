@@ -27,6 +27,7 @@ mixin _$Post {
   int get likeCount => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userImageURL => throw _privateConstructorUsedError;
+  int get commentCount => throw _privateConstructorUsedError;
   String get postId => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $PostCopyWith<$Res> {
       int likeCount,
       String userName,
       String userImageURL,
+      int commentCount,
       String postId,
       String text,
       String uid});
@@ -74,6 +76,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? likeCount = null,
     Object? userName = null,
     Object? userImageURL = null,
+    Object? commentCount = null,
     Object? postId = null,
     Object? text = null,
     Object? uid = null,
@@ -107,6 +110,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.userImageURL
           : userImageURL // ignore: cast_nullable_to_non_nullable
               as String,
+      commentCount: null == commentCount
+          ? _value.commentCount
+          : commentCount // ignore: cast_nullable_to_non_nullable
+              as int,
       postId: null == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -137,6 +144,7 @@ abstract class _$$_PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       int likeCount,
       String userName,
       String userImageURL,
+      int commentCount,
       String postId,
       String text,
       String uid});
@@ -158,6 +166,7 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
     Object? likeCount = null,
     Object? userName = null,
     Object? userImageURL = null,
+    Object? commentCount = null,
     Object? postId = null,
     Object? text = null,
     Object? uid = null,
@@ -191,6 +200,10 @@ class __$$_PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res, _$_Post>
           ? _value.userImageURL
           : userImageURL // ignore: cast_nullable_to_non_nullable
               as String,
+      commentCount: null == commentCount
+          ? _value.commentCount
+          : commentCount // ignore: cast_nullable_to_non_nullable
+              as int,
       postId: null == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
@@ -218,6 +231,7 @@ class _$_Post implements _Post {
       required this.likeCount,
       required this.userName,
       required this.userImageURL,
+      required this.commentCount,
       required this.postId,
       required this.text,
       required this.uid})
@@ -246,6 +260,8 @@ class _$_Post implements _Post {
   @override
   final String userImageURL;
   @override
+  final int commentCount;
+  @override
   final String postId;
   @override
   final String text;
@@ -254,7 +270,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(createdAt: $createdAt, updatedAt: $updatedAt, hashTags: $hashTags, imageURL: $imageURL, likeCount: $likeCount, userName: $userName, userImageURL: $userImageURL, postId: $postId, text: $text, uid: $uid)';
+    return 'Post(createdAt: $createdAt, updatedAt: $updatedAt, hashTags: $hashTags, imageURL: $imageURL, likeCount: $likeCount, userName: $userName, userImageURL: $userImageURL, commentCount: $commentCount, postId: $postId, text: $text, uid: $uid)';
   }
 
   @override
@@ -273,6 +289,8 @@ class _$_Post implements _Post {
                 other.userName == userName) &&
             (identical(other.userImageURL, userImageURL) ||
                 other.userImageURL == userImageURL) &&
+            (identical(other.commentCount, commentCount) ||
+                other.commentCount == commentCount) &&
             (identical(other.postId, postId) || other.postId == postId) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.uid, uid) || other.uid == uid));
@@ -289,6 +307,7 @@ class _$_Post implements _Post {
       likeCount,
       userName,
       userImageURL,
+      commentCount,
       postId,
       text,
       uid);
@@ -316,6 +335,7 @@ abstract class _Post implements Post {
       required final int likeCount,
       required final String userName,
       required final String userImageURL,
+      required final int commentCount,
       required final String postId,
       required final String text,
       required final String uid}) = _$_Post;
@@ -336,6 +356,8 @@ abstract class _Post implements Post {
   String get userName;
   @override
   String get userImageURL;
+  @override
+  int get commentCount;
   @override
   String get postId;
   @override

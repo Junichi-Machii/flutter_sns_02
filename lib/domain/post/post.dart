@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/material.dart';
 
 part 'post.freezed.dart';
 part 'post.g.dart';
@@ -14,6 +13,7 @@ abstract class Post with _$Post {
     required int likeCount,
     required String userName,
     required String userImageURL,
+    required int commentCount,
     required String postId,
     required String text,
     required String uid,

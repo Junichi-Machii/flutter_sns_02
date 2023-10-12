@@ -24,7 +24,7 @@ mixin _$LikeCommentToken {
   String get activeUid => throw _privateConstructorUsedError;
   String get passiveUid => throw _privateConstructorUsedError;
   dynamic get commentRef => throw _privateConstructorUsedError;
-  String get commentId => throw _privateConstructorUsedError;
+  String get postCommentId => throw _privateConstructorUsedError;
   String get tokenId => throw _privateConstructorUsedError;
   String get tokenType => throw _privateConstructorUsedError;
 
@@ -45,7 +45,7 @@ abstract class $LikeCommentTokenCopyWith<$Res> {
       String activeUid,
       String passiveUid,
       dynamic commentRef,
-      String commentId,
+      String postCommentId,
       String tokenId,
       String tokenType});
 }
@@ -67,7 +67,7 @@ class _$LikeCommentTokenCopyWithImpl<$Res, $Val extends LikeCommentToken>
     Object? activeUid = null,
     Object? passiveUid = null,
     Object? commentRef = freezed,
-    Object? commentId = null,
+    Object? postCommentId = null,
     Object? tokenId = null,
     Object? tokenType = null,
   }) {
@@ -88,9 +88,9 @@ class _$LikeCommentTokenCopyWithImpl<$Res, $Val extends LikeCommentToken>
           ? _value.commentRef
           : commentRef // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      commentId: null == commentId
-          ? _value.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
+      postCommentId: null == postCommentId
+          ? _value.postCommentId
+          : postCommentId // ignore: cast_nullable_to_non_nullable
               as String,
       tokenId: null == tokenId
           ? _value.tokenId
@@ -117,7 +117,7 @@ abstract class _$$_LikeCommentTokenCopyWith<$Res>
       String activeUid,
       String passiveUid,
       dynamic commentRef,
-      String commentId,
+      String postCommentId,
       String tokenId,
       String tokenType});
 }
@@ -137,7 +137,7 @@ class __$$_LikeCommentTokenCopyWithImpl<$Res>
     Object? activeUid = null,
     Object? passiveUid = null,
     Object? commentRef = freezed,
-    Object? commentId = null,
+    Object? postCommentId = null,
     Object? tokenId = null,
     Object? tokenType = null,
   }) {
@@ -158,9 +158,9 @@ class __$$_LikeCommentTokenCopyWithImpl<$Res>
           ? _value.commentRef
           : commentRef // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      commentId: null == commentId
-          ? _value.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
+      postCommentId: null == postCommentId
+          ? _value.postCommentId
+          : postCommentId // ignore: cast_nullable_to_non_nullable
               as String,
       tokenId: null == tokenId
           ? _value.tokenId
@@ -182,7 +182,7 @@ class _$_LikeCommentToken implements _LikeCommentToken {
       required this.activeUid,
       required this.passiveUid,
       required this.commentRef,
-      required this.commentId,
+      required this.postCommentId,
       required this.tokenId,
       required this.tokenType});
 
@@ -198,7 +198,7 @@ class _$_LikeCommentToken implements _LikeCommentToken {
   @override
   final dynamic commentRef;
   @override
-  final String commentId;
+  final String postCommentId;
   @override
   final String tokenId;
   @override
@@ -206,7 +206,7 @@ class _$_LikeCommentToken implements _LikeCommentToken {
 
   @override
   String toString() {
-    return 'LikeCommentToken(createdAt: $createdAt, activeUid: $activeUid, passiveUid: $passiveUid, commentRef: $commentRef, commentId: $commentId, tokenId: $tokenId, tokenType: $tokenType)';
+    return 'LikeCommentToken(createdAt: $createdAt, activeUid: $activeUid, passiveUid: $passiveUid, commentRef: $commentRef, postCommentId: $postCommentId, tokenId: $tokenId, tokenType: $tokenType)';
   }
 
   @override
@@ -221,8 +221,8 @@ class _$_LikeCommentToken implements _LikeCommentToken {
                 other.passiveUid == passiveUid) &&
             const DeepCollectionEquality()
                 .equals(other.commentRef, commentRef) &&
-            (identical(other.commentId, commentId) ||
-                other.commentId == commentId) &&
+            (identical(other.postCommentId, postCommentId) ||
+                other.postCommentId == postCommentId) &&
             (identical(other.tokenId, tokenId) || other.tokenId == tokenId) &&
             (identical(other.tokenType, tokenType) ||
                 other.tokenType == tokenType));
@@ -236,7 +236,7 @@ class _$_LikeCommentToken implements _LikeCommentToken {
       activeUid,
       passiveUid,
       const DeepCollectionEquality().hash(commentRef),
-      commentId,
+      postCommentId,
       tokenId,
       tokenType);
 
@@ -260,7 +260,7 @@ abstract class _LikeCommentToken implements LikeCommentToken {
       required final String activeUid,
       required final String passiveUid,
       required final dynamic commentRef,
-      required final String commentId,
+      required final String postCommentId,
       required final String tokenId,
       required final String tokenType}) = _$_LikeCommentToken;
 
@@ -276,7 +276,7 @@ abstract class _LikeCommentToken implements LikeCommentToken {
   @override
   dynamic get commentRef;
   @override
-  String get commentId;
+  String get postCommentId;
   @override
   String get tokenId;
   @override

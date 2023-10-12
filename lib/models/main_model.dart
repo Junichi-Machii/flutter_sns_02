@@ -89,7 +89,7 @@ class MainModel extends ChangeNotifier {
           final LikeCommentToken likeCommentToken =
               LikeCommentToken.fromJson(tokenMap);
           likeCommentTokens.add(likeCommentToken);
-          likeCommentIds.add(likeCommentToken.commentId);
+          likeCommentIds.add(likeCommentToken.postCommentId);
           break;
       }
     }

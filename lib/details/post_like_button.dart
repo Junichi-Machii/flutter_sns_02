@@ -18,29 +18,40 @@ class PostLikeButton extends StatelessWidget {
   final DocumentSnapshot<Map<String, dynamic>> postDoc;
   @override
   Widget build(BuildContext context) {
-    return mainModel.likePostIds.contains(post.postId)
-        ? InkWell(
-            child: const Icon(
-              Icons.favorite,
-              color: Colors.red,
-            ),
-            onTap: () async => await postsModel.unLike(
-              postRef: postDoc.reference,
-              postDoc: postDoc,
-              post: post,
-              mainModel: mainModel,
-            ),
-          )
-        : InkWell(
-            child: const Icon(
-              Icons.favorite_border,
-            ),
-            onTap: () async => await postsModel.like(
-              postRef: postDoc.reference,
-              postDoc: postDoc,
-              post: post,
-              mainModel: mainModel,
-            ),
-          );
+    final isLike = mainModel.likePostIds.contains(post.postId);
+    final int plusOneCount = post.likeCount + 1;
+
+    return Row(
+      children: [
+        Container(
+          child: isLike
+              ? InkWell(
+                  child: const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+                  onTap: () async => await postsModel.unLike(
+                    postRef: postDoc.reference,
+                    postDoc: postDoc,
+                    post: post,
+                    mainModel: mainModel,
+                  ),
+                )
+              : InkWell(
+                  child: const Icon(
+                    Icons.favorite_border,
+                  ),
+                  onTap: () async => await postsModel.like(
+                    postRef: postDoc.reference,
+                    postDoc: postDoc,
+                    post: post,
+                    mainModel: mainModel,
+                  ),
+                ),
+        ),
+        const SizedBox(width: 8),
+        Text(isLike ? plusOneCount.toString() : post.likeCount.toString())
+      ],
+    );
   }
 }
