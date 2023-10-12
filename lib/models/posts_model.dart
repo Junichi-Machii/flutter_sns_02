@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sns_u_02/constants/enums.dart';
 //constants
 import 'package:flutter_sns_u_02/constants/strings.dart';
 //domains
@@ -37,7 +38,7 @@ class PostsModel extends ChangeNotifier {
       postRef: postRef,
       postId: postId,
       tokenId: tokenId,
-      tokenType: "likePost",
+      tokenType: likePostTokenTypeString,
     );
     await currentUserDoc.reference
         .collection("tokens")

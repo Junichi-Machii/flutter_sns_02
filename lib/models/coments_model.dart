@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sns_u_02/constants/enums.dart';
 
 import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
 import 'package:flutter_sns_u_02/constants/strings.dart';
 import 'package:flutter_sns_u_02/constants/voids.dart' as voids;
 import 'package:flutter_sns_u_02/domain/comment/comment.dart';
+import 'package:flutter_sns_u_02/domain/comment_like/comment_like.dart';
 import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
+import 'package:flutter_sns_u_02/domain/like_comment_token/like_comment_token.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 
@@ -26,6 +29,9 @@ class CommentsModel extends ChangeNotifier {
         .orderBy("likeCount", descending: true);
   }
 
+// 同じデータを取得しないようにする。
+  String indexPostId = "";
+
 //コメントボタンが押された時の処理
   Future<void> init({
     required DocumentSnapshot<Map<String, dynamic>> postDoc,
@@ -35,7 +41,11 @@ class CommentsModel extends ChangeNotifier {
   }) async {
     routes.toCommentsPage(
         context: context, mainModel: mainModel, postDoc: postDoc, post: post);
-    await onReload(postDoc: postDoc);
+    if (indexPostId != post.postId) {
+      await onReload(postDoc: postDoc);
+    }
+    indexPostId = post.postId;
+    // indexPostId = postDoc.id;
   }
 
   void startLoading() {
@@ -74,6 +84,7 @@ class CommentsModel extends ChangeNotifier {
     commentDocs = qshot.docs;
 
     endLoading();
+    notifyListeners();
   }
 
   Future<void> onLoading(
@@ -163,7 +174,7 @@ class CommentsModel extends ChangeNotifier {
       likeCount: 0,
       comment: commentString,
       userName: firestoreUser.userName,
-      userImageURL: "",
+      userImageURL: firestoreUser.userImageURL,
       uid: activeUid,
       postCommentId: postCommentId,
     );
@@ -171,5 +182,52 @@ class CommentsModel extends ChangeNotifier {
         .collection("postComments")
         .doc(postCommentId)
         .set(comment.toJson());
+    notifyListeners();
+  }
+
+  Future<void> like({
+    required DocumentReference<Map<String, dynamic>> commentRef,
+    required DocumentSnapshot<Map<String, dynamic>> commentDoc,
+    required MainModel mainModel,
+    required Comment comment,
+    required Post post,
+  }) async {
+    //setting
+    final String commentId = comment.postCommentId;
+    mainModel.likeCommentIds.add(commentId);
+    final currentUserDoc = mainModel.currentUserDoc;
+    final String tokenId = returnUuidV4();
+    final Timestamp now = Timestamp.now();
+    final String activeUid = currentUserDoc.id;
+    final String passiveUid = commentId;
+    notifyListeners();
+
+    //自分がコメントにいいねした印
+    final LikeCommentToken likeCommentToken = LikeCommentToken(
+      createdAt: now,
+      activeUid: activeUid,
+      passiveUid: passiveUid,
+      commentRef: commentDoc.reference,
+      commentId: commentId,
+      tokenId: tokenId,
+      tokenType: likeCommentTokenTypeString,
+    );
+    await currentUserDoc.reference
+        .collection("tokens")
+        .doc(tokenId)
+        .set(likeCommentToken.toJson());
+
+    //コメントがいいねされた時の印
+    final CommentLike commentLike = CommentLike(
+        activeUid: activeUid,
+        createdAt: now,
+        postCommentCreatorUid: comment.uid,
+        postCommentId: commentId,
+        postCommentRef: commentDoc.reference);
+    //いいねする人が重複しないようにUidをdocumentIdとする
+    await commentDoc.reference
+        .collection("postCommentLikes")
+        .doc(activeUid)
+        .set(commentLike.toJson());
   }
 }

@@ -11,7 +11,6 @@ import 'firebase_options.dart';
 
 import 'package:flutter_sns_u_02/constants/strings.dart';
 import 'package:flutter_sns_u_02/details/bottom_navigation_bar.dart';
-import 'package:flutter_sns_u_02/details/rounded_button.dart';
 import 'package:flutter_sns_u_02/views/login_page.dart';
 import 'package:flutter_sns_u_02/models/bottom_navigation_bar_model.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';

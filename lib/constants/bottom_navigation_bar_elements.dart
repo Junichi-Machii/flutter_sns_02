@@ -3,15 +3,18 @@ import 'package:flutter_sns_u_02/constants/strings.dart';
 
 final List<BottomNavigationBarItem> bottomNavigationBarElements = [
   const BottomNavigationBarItem(
-    icon: Icon(Icons.home),
+    activeIcon: Icon(Icons.home),
+    icon: Icon(Icons.home_outlined),
     label: homeText,
   ),
   const BottomNavigationBarItem(
-    icon: Icon(Icons.search),
+    activeIcon: Icon(Icons.search),
+    icon: Icon(Icons.search_outlined),
     label: searchText,
   ),
   const BottomNavigationBarItem(
-    icon: Icon(Icons.person),
+    activeIcon: Icon(Icons.person),
+    icon: Icon(Icons.person_outline),
     label: profileText,
   ),
 ];

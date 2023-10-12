@@ -1,28 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sns_u_02/details/card_container.dart';
-import 'package:flutter_sns_u_02/details/post_like_button.dart';
 import 'package:flutter_sns_u_02/details/user_image.dart';
+import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/coments_model.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
-import 'package:flutter_sns_u_02/models/posts_model.dart';
+import 'package:flutter_sns_u_02/views/comments/conponents/comment_like_button.dart';
+import 'package:http/http.dart';
 
-class PostCard extends StatelessWidget {
-  const PostCard({
+class CommentCard extends StatelessWidget {
+  const CommentCard({
     super.key,
-    required this.post,
+    required this.comment,
     required this.mainModel,
     required this.commentsModel,
-    required this.postDoc,
-    required this.postsModel,
+    required this.commentDoc,
+    required this.post,
   });
-
-  final Post post;
-  final MainModel mainModel;
+  final DocumentSnapshot<Map<String, dynamic>> commentDoc;
   final CommentsModel commentsModel;
-  final PostsModel postsModel;
-  final DocumentSnapshot<Map<String, dynamic>> postDoc;
+  final Post post;
+  final Comment comment;
+  final MainModel mainModel;
   @override
   Widget build(BuildContext context) {
     return CardContainer(
@@ -34,37 +34,32 @@ class PostCard extends StatelessWidget {
           children: [
             UserImage(
                 length: 54,
-                userImageURL: post.uid == mainModel.firestoreUser.uid
+                userImageURL: comment.uid == mainModel.firestoreUser.uid
                     ? mainModel.firestoreUser.userImageURL
-                    : post.imageURL),
+                    : comment.userImageURL),
             Text(
-              post.text,
+              comment.comment,
               style: TextStyle(fontSize: 24),
             ),
             Column(
               children: [
-                IconButton(
-                  icon: Icon(Icons.comment),
-                  onPressed: () async => await commentsModel.init(
-                      context: context,
-                      mainModel: mainModel,
-                      postDoc: postDoc,
-                      post: post),
-                ),
+                IconButton(icon: Icon(Icons.comment), onPressed: () {}),
                 SizedBox(
                   height: 18,
                 ),
                 Row(
                   children: [
-                    PostLikeButton(
-                        mainModel: mainModel,
-                        post: post,
-                        postsModel: postsModel,
-                        postDoc: postDoc),
+                    CommentLikeButton(
+                      commentsModel: commentsModel,
+                      commentDoc: commentDoc,
+                      mainModel: mainModel,
+                      comment: comment,
+                      post: post,
+                    ),
                     SizedBox(
                       width: 8,
                     ),
-                    Text(post.likeCount.toString())
+                    Text(comment.likeCount.toString())
                   ],
                 ),
               ],
