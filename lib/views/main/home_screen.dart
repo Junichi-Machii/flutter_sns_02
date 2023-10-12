@@ -32,21 +32,26 @@ class HomeScreen extends ConsumerWidget {
         ? ReloadScreen(
             onReload: () => homeModel.onReload(),
           )
-        : RefreshScreen(
-            child: ListView.builder(
-              itemCount: postDocs.length,
-              itemBuilder: (context, index) {
-                final postDoc = postDocs[index];
-                final Post post = Post.fromJson(postDoc.data()!);
+        : SizedBox(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: RefreshScreen(
+                onLoading: () async => await homeModel.onLoading(),
+                refreshController: homeModel.refreshController,
+                child: ListView.builder(
+                  itemCount: postDocs.length,
+                  itemBuilder: (context, index) {
+                    final postDoc = postDocs[index];
+                    final Post post = Post.fromJson(postDoc.data()!);
 
-                return PostCard(
-                    post: post,
-                    mainModel: mainModel,
-                    commentsModel: commentsModel,
-                    postDoc: postDoc,
-                    postsModel: postsModel);
-              },
-            ),
-            onRefresh: () async => await homeModel.onRefresh());
+                    return PostCard(
+                        post: post,
+                        mainModel: mainModel,
+                        commentsModel: commentsModel,
+                        postDoc: postDoc,
+                        postsModel: postsModel);
+                  },
+                ),
+                onRefresh: () async => await homeModel.onRefresh()),
+          );
   }
 }

@@ -6,12 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/constants/others.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final homeProvider = ChangeNotifierProvider((ref) => HomeModel());
 
 class HomeModel extends ChangeNotifier {
   bool isLoading = false;
   List<DocumentSnapshot<Map<String, dynamic>>> postDocs = [];
+  final RefreshController refreshController = RefreshController();
   late User? currentUser;
   Query<Map<String, dynamic>> returnQuery() {
     final User? currentUser = returnAuthUser();
@@ -46,9 +48,9 @@ class HomeModel extends ChangeNotifier {
   Future<void> onRefresh() async {
     // monitor network fetch
     // await Future.delayed(Duration(milliseconds: 1000));
-    await Future<void>.delayed(const Duration(seconds: 3));
+    // await Future<void>.delayed(const Duration(seconds: 3));
     // if failed,use refreshFailed()
-    // refreshController.refreshCompleted();
+    refreshController.refreshCompleted();
     if (postDocs.isNotEmpty) {
       final qshot = await returnQuery().endBeforeDocument(postDocs.first).get();
       final reversed = qshot.docs.reversed.toList();
@@ -70,10 +72,10 @@ class HomeModel extends ChangeNotifier {
 
   Future<void> onLoading() async {
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
+    // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    // refreshController.loadComplete();
+    refreshController.loadComplete();
     if (postDocs.isNotEmpty) {
       final qshot = await returnQuery().startAfterDocument(postDocs.last).get();
       for (final postDoc in qshot.docs) {

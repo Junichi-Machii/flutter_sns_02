@@ -41,7 +41,7 @@ dependencies:
   cloud_firestore:
   firebase_analytics:
   google_fonts:
-  # pull_to_refresh: ^2.0.0
+  pull_to_refresh: ^2.0.0
   image_cropper:
   shared_preferences:
   url_launcher:

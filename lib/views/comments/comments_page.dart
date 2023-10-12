@@ -37,9 +37,14 @@ class CommentsPage extends ConsumerWidget {
       ),
       body: commentDocs.isEmpty
           ? ReloadScreen(
-              onReload: () => commentsModel.onReload(postDoc: postDoc))
+              onReload: () async =>
+                  await commentsModel.onReload(postDoc: postDoc))
           : RefreshScreen(
-              onRefresh: () => commentsModel.onRefresh(postDoc: postDoc),
+              refreshController: commentsModel.refreshController,
+              onLoading: () async =>
+                  await commentsModel.onLoading(postDoc: postDoc),
+              onRefresh: () async =>
+                  await commentsModel.onRefresh(postDoc: postDoc),
               child: ListView.builder(
                 itemCount: commentDocs.length,
                 itemBuilder: (context, index) {
