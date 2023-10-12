@@ -17,6 +17,7 @@ const String logOut = 'Log Out';
 const String upLoadText = 'Up Loading...';
 const String signInNotMemberText = "Not a member?";
 const String registerText = "Register now";
+const String reloadText = "Reload";
 
 //showSnackBar text
 const String showSnackBarAddUserText = 'User Created';

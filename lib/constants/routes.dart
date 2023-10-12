@@ -8,11 +8,10 @@ import 'package:flutter_sns_u_02/models/main_model.dart';
 
 import 'package:flutter_sns_u_02/views/account_page.dart';
 import 'package:flutter_sns_u_02/views/admin_page.dart';
-import 'package:flutter_sns_u_02/views/comments_page.dart';
+import 'package:flutter_sns_u_02/views/comments/comments_page.dart';
 import 'package:flutter_sns_u_02/views/main/passive_user_profile_page.dart';
 import 'package:flutter_sns_u_02/views/signup_page.dart';
 import 'package:flutter_sns_u_02/views/login_page.dart';
-import 'package:http/http.dart';
 
 void toSignUpPage({required BuildContext context}) => Navigator.push(
     context, MaterialPageRoute(builder: (context) => SignUpPage()));

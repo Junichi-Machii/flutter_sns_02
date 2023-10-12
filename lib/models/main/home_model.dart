@@ -65,6 +65,7 @@ class HomeModel extends ChangeNotifier {
     postDocs = qshot.docs;
 
     endLoading();
+    notifyListeners();
   }
 
   Future<void> onLoading() async {

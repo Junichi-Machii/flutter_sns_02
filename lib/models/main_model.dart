@@ -6,10 +6,10 @@ import 'package:flutter_sns_u_02/constants/enums.dart';
 import 'package:flutter_sns_u_02/constants/strings.dart';
 import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/following_token/following_token.dart';
+import 'package:flutter_sns_u_02/domain/like_comment_token/like_comment_token.dart';
 import 'package:flutter_sns_u_02/domain/like_post_token/like_post_token.dart';
 
 // packages
-import 'package:uuid/uuid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //constants
@@ -32,6 +32,8 @@ class MainModel extends ChangeNotifier {
   List<String> followingUids = [];
   List<LikePostToken> likePostTokens = [];
   List<String> likePostIds = [];
+  List<LikeCommentToken> likeCommentTokens = [];
+  List<String> likeCommentIds = [];
 
   // MainModelが起動した時の処理
   MainModel() {
@@ -82,6 +84,12 @@ class MainModel extends ChangeNotifier {
           final LikePostToken likePostToken = LikePostToken.fromJson(tokenMap);
           likePostTokens.add(likePostToken);
           likePostIds.add(likePostToken.postId);
+          break;
+        case TokenType.likeComment:
+          final LikeCommentToken likeCommentToken =
+              LikeCommentToken.fromJson(tokenMap);
+          likeCommentTokens.add(likeCommentToken);
+          likeCommentIds.add(likeCommentToken.commentId);
           break;
       }
     }

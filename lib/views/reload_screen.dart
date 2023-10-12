@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sns_u_02/constants/strings.dart';
 
 import 'package:flutter_sns_u_02/details/rounded_button.dart';
-import 'package:flutter_sns_u_02/models/main/home_model.dart';
 
 class ReloadScreen extends StatelessWidget {
   const ReloadScreen({
     super.key,
-    required this.homeModel,
+    required this.onReload,
   });
 
-  final HomeModel homeModel;
+  final void Function()? onReload;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,9 +17,9 @@ class ReloadScreen extends StatelessWidget {
       children: [
         Center(
           child: RoundedButton(
-            onPressed: () async => homeModel.onReload(),
+            onPressed: onReload,
             color: Theme.of(context).colorScheme.inversePrimary,
-            text: "Reload",
+            text: reloadText,
             widthRate: 0.85,
           ),
         )
