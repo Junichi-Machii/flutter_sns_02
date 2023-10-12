@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/constants/others.dart';
 import 'package:flutter_sns_u_02/constants/strings.dart';
+import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 
@@ -16,6 +17,14 @@ class AdminModel extends ChangeNotifier {
       {required DocumentSnapshot<Map<String, dynamic>> currentUserDoc,
       required FirestoreUser firestoreUser}) async {
     // 管理者ができる処理
+    final WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    final commentsQshot =
+        await FirebaseFirestore.instance.collectionGroup("postComments").get();
+    for (final commenDoc in commentsQshot.docs) {
+      batch.delete(commenDoc.reference);
+    }
+    await batch.commit();
 
 // "commentCount": 0,を作成
     // final WriteBatch batch = FirebaseFirestore.instance.batch();

@@ -10,6 +10,7 @@ abstract class Comment with _$Comment {
     required dynamic createdAt,
     required int postCommentReplyCount,
     required int likeCount,
+    required dynamic postRef,
     required String comment,
     required String userName,
     required String userImageURL,

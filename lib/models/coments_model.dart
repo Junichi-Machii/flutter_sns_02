@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 //package
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,10 +14,12 @@ import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/like_comment_token/like_comment_token.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final commentsProvider = ChangeNotifierProvider((ref) => CommentsModel());
 
 class CommentsModel extends ChangeNotifier {
+  RefreshController refreshController = RefreshController();
   final TextEditingController textEditingController = TextEditingController();
   String commentString = "";
   List<DocumentSnapshot<Map<String, dynamic>>> commentDocs = [];
@@ -46,27 +46,27 @@ class CommentsModel extends ChangeNotifier {
     if (indexPostId != post.postId) {
       await onReload(postDoc: postDoc);
     }
-    indexPostId = post.postId;
+    indexPostId = postDoc.id;
     // indexPostId = postDoc.id;
   }
 
-  void startLoading() {
-    isLoading = true;
-    notifyListeners();
-  }
+  // void startLoading() {
+  //   isLoading = true;
+  //   notifyListeners();
+  // }
 
-  void endLoading() {
-    isLoading = false;
-    notifyListeners();
-  }
+  // void endLoading() {
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
 
   Future<void> onRefresh(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
+    refreshController.refreshCompleted();
     // monitor network fetch
     // await Future.delayed(Duration(milliseconds: 1000));
-    await Future<void>.delayed(const Duration(seconds: 3));
+    // await Future<void>.delayed(const Duration(seconds: 3));
     // if failed,use refreshFailed()
-    // refreshController.refreshCompleted();
     if (commentDocs.isNotEmpty) {
       final qshot = await returnQuery(postDoc: postDoc)
           .endBeforeDocument(commentDocs.first)
@@ -81,21 +81,21 @@ class CommentsModel extends ChangeNotifier {
 
   Future<void> onReload(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
-    startLoading();
+    // startLoading();
     final qshot = await returnQuery(postDoc: postDoc).get();
     commentDocs = qshot.docs;
 
-    endLoading();
+    // endLoading();
     notifyListeners();
   }
 
   Future<void> onLoading(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
+    // await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
-    // refreshController.loadComplete();
+    refreshController.loadComplete();
     if (commentDocs.isNotEmpty) {
       final qshot = await returnQuery(postDoc: postDoc)
           .startAfterDocument(commentDocs.last)
@@ -171,6 +171,7 @@ class CommentsModel extends ChangeNotifier {
     final String activeUid = currentUserDoc.id;
     final String postCommentId = returnUuidV4();
     final Comment comment = Comment(
+      postRef: postDoc.reference,
       createdAt: now,
       postCommentReplyCount: 0,
       likeCount: 0,

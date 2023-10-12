@@ -23,6 +23,7 @@ mixin _$Comment {
   dynamic get createdAt => throw _privateConstructorUsedError;
   int get postCommentReplyCount => throw _privateConstructorUsedError;
   int get likeCount => throw _privateConstructorUsedError;
+  dynamic get postRef => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userImageURL => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $CommentCopyWith<$Res> {
       {dynamic createdAt,
       int postCommentReplyCount,
       int likeCount,
+      dynamic postRef,
       String comment,
       String userName,
       String userImageURL,
@@ -66,6 +68,7 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? createdAt = freezed,
     Object? postCommentReplyCount = null,
     Object? likeCount = null,
+    Object? postRef = freezed,
     Object? comment = null,
     Object? userName = null,
     Object? userImageURL = null,
@@ -85,6 +88,10 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
+      postRef: freezed == postRef
+          ? _value.postRef
+          : postRef // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       comment: null == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -120,6 +127,7 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       {dynamic createdAt,
       int postCommentReplyCount,
       int likeCount,
+      dynamic postRef,
       String comment,
       String userName,
       String userImageURL,
@@ -140,6 +148,7 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? postCommentReplyCount = null,
     Object? likeCount = null,
+    Object? postRef = freezed,
     Object? comment = null,
     Object? userName = null,
     Object? userImageURL = null,
@@ -159,6 +168,10 @@ class __$$_CommentCopyWithImpl<$Res>
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
+      postRef: freezed == postRef
+          ? _value.postRef
+          : postRef // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       comment: null == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -190,6 +203,7 @@ class _$_Comment implements _Comment {
       {required this.createdAt,
       required this.postCommentReplyCount,
       required this.likeCount,
+      required this.postRef,
       required this.comment,
       required this.userName,
       required this.userImageURL,
@@ -206,6 +220,8 @@ class _$_Comment implements _Comment {
   @override
   final int likeCount;
   @override
+  final dynamic postRef;
+  @override
   final String comment;
   @override
   final String userName;
@@ -218,7 +234,7 @@ class _$_Comment implements _Comment {
 
   @override
   String toString() {
-    return 'Comment(createdAt: $createdAt, postCommentReplyCount: $postCommentReplyCount, likeCount: $likeCount, comment: $comment, userName: $userName, userImageURL: $userImageURL, uid: $uid, postCommentId: $postCommentId)';
+    return 'Comment(createdAt: $createdAt, postCommentReplyCount: $postCommentReplyCount, likeCount: $likeCount, postRef: $postRef, comment: $comment, userName: $userName, userImageURL: $userImageURL, uid: $uid, postCommentId: $postCommentId)';
   }
 
   @override
@@ -231,6 +247,7 @@ class _$_Comment implements _Comment {
                 other.postCommentReplyCount == postCommentReplyCount) &&
             (identical(other.likeCount, likeCount) ||
                 other.likeCount == likeCount) &&
+            const DeepCollectionEquality().equals(other.postRef, postRef) &&
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
@@ -248,6 +265,7 @@ class _$_Comment implements _Comment {
       const DeepCollectionEquality().hash(createdAt),
       postCommentReplyCount,
       likeCount,
+      const DeepCollectionEquality().hash(postRef),
       comment,
       userName,
       userImageURL,
@@ -273,6 +291,7 @@ abstract class _Comment implements Comment {
       {required final dynamic createdAt,
       required final int postCommentReplyCount,
       required final int likeCount,
+      required final dynamic postRef,
       required final String comment,
       required final String userName,
       required final String userImageURL,
@@ -287,6 +306,8 @@ abstract class _Comment implements Comment {
   int get postCommentReplyCount;
   @override
   int get likeCount;
+  @override
+  dynamic get postRef;
   @override
   String get comment;
   @override
