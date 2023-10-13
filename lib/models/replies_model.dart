@@ -69,8 +69,9 @@ class RepliesModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> onReload(
-      {required DocumentSnapshot<Map<String, dynamic>> commentDoc}) async {
+  Future<void> onReload({
+    required DocumentSnapshot<Map<String, dynamic>> commentDoc,
+  }) async {
     // startLoading();
     final qshot = await returnQuery(commentDoc: commentDoc).get();
     repliesDocs = qshot.docs;
@@ -96,4 +97,6 @@ class RepliesModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void showRepliesDialog() {}
 }
