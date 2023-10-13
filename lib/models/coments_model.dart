@@ -41,12 +41,14 @@ class CommentsModel extends ChangeNotifier {
     required MainModel mainModel,
     required Post post,
   }) async {
+    refreshController = RefreshController();
     routes.toCommentsPage(
         context: context, mainModel: mainModel, postDoc: postDoc, post: post);
-    if (indexPostId != post.postId) {
+    final postId = post.postId;
+    if (indexPostId != postId) {
       await onReload(postDoc: postDoc);
     }
-    indexPostId = postDoc.id;
+    indexPostId = postId;
     // indexPostId = postDoc.id;
   }
 
