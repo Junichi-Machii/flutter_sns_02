@@ -86,7 +86,7 @@ exports.onPostCommentLikeDelete = functions.firestore.document('users/{uid}/post
     }
 );
 
-exports.onPostCommentcreate =functions.firestore.document('users/{uid}/posts/{postId}/postComments/{id}/').onCreate(
+exports.onPostCommentCreate = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{id}').onCreate(
     async (snap,_) =>{
         const newValue = snap.data();
         await newValue.postRef.update({
@@ -94,7 +94,8 @@ exports.onPostCommentcreate =functions.firestore.document('users/{uid}/posts/{po
         });
     }
 );
-exports.onPostCommentcreate =functions.firestore.document('users/{uid}/posts/{postId}/postComments/{id}/').onDelete(
+
+exports.onPostCommentDelete = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{id}').onDelete(
     async (snap,_) =>{
         const newValue = snap.data();
         await newValue.postRef.update({

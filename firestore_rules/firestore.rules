@@ -32,9 +32,19 @@ service cloud.firestore {
         }
         match /postComments/{postCommentId} {
           allow read: if isAuthenticated();
-          allow create, delete: if isTheSameUserOrAdmin(uid);
+          allow create: if isAuthenticated();
+         //PostCommentのdataのuidが現在ログインしている人と一致していれば消去できる
+          allow delete: if isTheSameUserOrAdmin(resource.data.uid);
           match /postCommentLikes/{activeUid} {
             allow create, delete: if isTheSameUserOrAdmin(activeUid);
+          }
+          match /postCommentReplies/{postCommentReplyId} {
+            allow read: if isAuthenticated();
+            // allow create, delete: if isTheSameUserOrAdmin(uid);
+            allow create: if isAuthenticated();
+            //PostCommentRepliesのdataのuidが現在ログインしている人と一致していれば消去できる
+            allow delete: if isTheSameUserOrAdmin(resource.data.uid);
+
           }
         }
       }
