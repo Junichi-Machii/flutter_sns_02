@@ -56,7 +56,11 @@ class RepliesPage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           child: const Icon(Icons.comment_outlined),
-          onPressed: () => repliesModel.showRepliesDialog()),
+          onPressed: () => repliesModel.showRepliesDialog(
+              comment: comment,
+              context: context,
+              mainModel: mainModel,
+              commentDoc: commentDoc)),
     );
   }
 }

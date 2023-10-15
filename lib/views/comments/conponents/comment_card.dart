@@ -1,5 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
 import 'package:flutter_sns_u_02/details/card_container.dart';
 import 'package:flutter_sns_u_02/details/user_image.dart';
 import 'package:flutter_sns_u_02/domain/comment/comment.dart';
@@ -7,7 +10,6 @@ import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/coments_model.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:flutter_sns_u_02/views/comments/conponents/comment_like_button.dart';
-import 'package:http/http.dart';
 
 class CommentCard extends StatelessWidget {
   const CommentCard({
@@ -43,7 +45,13 @@ class CommentCard extends StatelessWidget {
             ),
             Column(
               children: [
-                IconButton(icon: Icon(Icons.comment), onPressed: () {}),
+                IconButton(
+                    icon: Icon(Icons.comment),
+                    onPressed: () => routes.toRepliesPage(
+                        context: context,
+                        mainModel: mainModel,
+                        comment: comment,
+                        commentDoc: commentDoc)),
                 SizedBox(
                   height: 18,
                 ),
