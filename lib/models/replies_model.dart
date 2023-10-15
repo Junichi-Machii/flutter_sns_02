@@ -1,10 +1,17 @@
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 
 //package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sns_u_02/constants/strings.dart';
+
+import 'package:flutter_sns_u_02/constants/voids.dart' as voids;
+
 import 'package:flutter_sns_u_02/domain/comment/comment.dart';
+import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
+import 'package:flutter_sns_u_02/domain/reply/reply.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -98,5 +105,86 @@ class RepliesModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void showRepliesDialog() {}
+  void showRepliesDialog(
+      {required BuildContext context,
+      required Comment comment,
+      required MainModel mainModel,
+      required DocumentSnapshot<Map<String, dynamic>> commentDoc}) {
+    voids.showFlashDialog(
+      context: context,
+      mainModel: mainModel,
+      textEditingController: textEditingController,
+      onChanged: (value) => repliesString = value,
+      titleString: createReplyText,
+      indicatorColor: Colors.black87,
+      barrierColor: const Color.fromARGB(255, 125, 150, 163).withOpacity(0.5),
+      builder: (context, controller) => FlashBar(
+        controller: controller,
+        clipBehavior: Clip.antiAlias,
+        indicatorColor: Colors.red,
+        icon: Icon(Icons.tips_and_updates_outlined),
+        title: Text('Reply to'),
+        content: Form(
+          child: TextField(
+            controller: textEditingController,
+            onChanged: (value) => repliesString = value,
+            maxLength: 100,
+          ),
+        ),
+        primaryAction: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+              onPressed: () async {
+                if (textEditingController.text.isNotEmpty) {
+                  await createReplies(
+                      comment: comment,
+                      currentUserDoc: mainModel.currentUserDoc,
+                      firestoreUser: mainModel.firestoreUser,
+                      commentDoc: commentDoc);
+                  await controller.dismiss();
+                  repliesString = "";
+                  textEditingController.text = "";
+                } else {
+                  await controller.dismiss();
+                }
+              },
+              icon: Icon(Icons.send),
+            ),
+            IconButton(
+              onPressed: () async {
+                return await controller.dismiss();
+              },
+              icon: Icon(Icons.close),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> createReplies(
+      {required DocumentSnapshot<Map<String, dynamic>> currentUserDoc,
+      required FirestoreUser firestoreUser,
+      required DocumentSnapshot<Map<String, dynamic>> commentDoc,
+      required Comment comment}) async {
+    final Timestamp now = Timestamp.now();
+    final String activeUid = currentUserDoc.id;
+    final String postCommentReplyId = returnUuidV4();
+    final Reply reply = Reply(
+        createdAt: now,
+        reply: repliesString,
+        likeCount: 0,
+        postRef: comment.postRef,
+        postCommentRef: commentDoc.reference,
+        postCommentReplyId: postCommentReplyId,
+        userName: firestoreUser.userName,
+        uid: activeUid,
+        userImageURL: firestoreUser.userImageURL);
+    await commentDoc.reference
+        .collection("postCommentReplies")
+        .doc(postCommentReplyId)
+        .set(reply.toJson());
+    notifyListeners();
+  }
 }
