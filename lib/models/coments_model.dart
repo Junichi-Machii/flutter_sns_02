@@ -249,8 +249,6 @@ class CommentsModel extends ChangeNotifier {
     mainModel.likeCommentIds.remove(postCommentId);
     final currentUserDoc = mainModel.currentUserDoc;
     final String activeUid = currentUserDoc.id;
-    notifyListeners();
-
     final deleteLikeCommentToken = mainModel.likeCommentTokens
         .where((element) => element.postCommentId == postCommentId)
         .toList()
@@ -264,10 +262,10 @@ class CommentsModel extends ChangeNotifier {
         .delete();
 
     //投稿がいいねされた時の印を削除
-    await commentDoc.reference
-        .collection("postCommentLikes")
-        .doc(activeUid)
-        .delete();
+    // await commentDoc.reference
+    //     .collection("postCommentLikes")
+    //     .doc(activeUid)
+    //     .delete();
 
     final DocumentReference<Map<String, dynamic>> postCommentRef =
         deleteLikeCommentToken.commentRef;

@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //constants
 import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
+import 'package:flutter_sns_u_02/domain/like_reply_token/like_reply_token.dart';
 
 final mainProvider = ChangeNotifierProvider((ref) => MainModel());
 
@@ -34,6 +35,8 @@ class MainModel extends ChangeNotifier {
   List<String> likePostIds = [];
   List<LikeCommentToken> likeCommentTokens = [];
   List<String> likeCommentIds = [];
+  List<LikeReplyToken> likeReplyTokens = [];
+  List<String> likeRepliesIds = [];
 
   // MainModelが起動した時の処理
   MainModel() {
@@ -90,6 +93,14 @@ class MainModel extends ChangeNotifier {
               LikeCommentToken.fromJson(tokenMap);
           likeCommentTokens.add(likeCommentToken);
           likeCommentIds.add(likeCommentToken.postCommentId);
+          break;
+        case TokenType.likeReply:
+          final LikeReplyToken likeReplyToken =
+              LikeReplyToken.fromJson(tokenMap);
+          likeReplyTokens.add(likeReplyToken);
+          likeRepliesIds.add(likeReplyToken.postCommentReplyId);
+          break;
+        case TokenType.mistake:
           break;
       }
     }
