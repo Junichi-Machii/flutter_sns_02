@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sns_u_02/domain/comment/comment.dart';
-import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/domain/reply/reply.dart';
-import 'package:flutter_sns_u_02/models/coments_model.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:flutter_sns_u_02/models/replies_model.dart';
 
@@ -27,8 +25,7 @@ class ReplyLikeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isRepliesLike =
         mainModel.likeRepliesIds.contains(reply.postCommentReplyId);
-    final likeReplyCount = reply.likeCount;
-    final int plusOneCount = likeReplyCount + 1;
+    final int likeReplyCount = reply.likeCount + 1;
     return Row(
       children: [
         Container(
@@ -58,7 +55,9 @@ class ReplyLikeButton extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          isRepliesLike ? plusOneCount.toString() : likeReplyCount.toString(),
+          isRepliesLike
+              ? likeReplyCount.toString()
+              : reply.likeCount.toString(),
         ),
       ],
     );

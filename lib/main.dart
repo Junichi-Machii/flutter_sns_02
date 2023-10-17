@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sizer/sizer.dart';
 import 'package:flutter_sns_u_02/constants/themes.dart';
 import 'package:flutter_sns_u_02/details/sns_drawer.dart';
 import 'package:flutter_sns_u_02/models/create_post_modesl.dart';
@@ -37,19 +40,32 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final User? onceUser = FirebaseAuth.instance.currentUser;
     final ThemeModel themeModel = ref.watch(themeProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: themeModel.isDarkTheme
-          ? darkThemeData(context: context)
-          : lightThemeData(context: context),
-      home: onceUser == null
-          ? LogInPage()
-          : MyHomePage(
-              title: 'Flutter Demo Home Page',
-              themeModel: themeModel,
-            ),
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return Listener(
+        onPointerUp: (_) {
+          if (Platform.isIOS) {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus!.unfocus();
+            }
+          }
+        },
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: themeModel.isDarkTheme
+              ? darkThemeData(context: context)
+              : lightThemeData(context: context),
+          home: onceUser == null
+              ? LogInPage()
+              : MyHomePage(
+                  title: 'Flutter Demo Home Page',
+                  themeModel: themeModel,
+                ),
+        ),
+      );
+    });
   }
 }
 

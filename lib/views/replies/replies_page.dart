@@ -7,7 +7,6 @@ import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/reply/reply.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:flutter_sns_u_02/models/replies_model.dart';
-import 'package:flutter_sns_u_02/views/comments/conponents/comment_card.dart';
 import 'package:flutter_sns_u_02/views/refresh_screen.dart';
 import 'package:flutter_sns_u_02/views/reload_screen.dart';
 import 'package:flutter_sns_u_02/views/replies/conponents/reply_card.dart';

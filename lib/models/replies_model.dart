@@ -26,16 +26,16 @@ class RepliesModel extends ChangeNotifier {
   RefreshController refreshController = RefreshController();
   final TextEditingController textEditingController = TextEditingController();
   String repliesString = "";
+  String indexPostCommentId = "";
   List<DocumentSnapshot<Map<String, dynamic>>> repliesDocs = [];
   Query<Map<String, dynamic>> returnQuery(
-      {required DocumentSnapshot<Map<String, dynamic>> commentDoc}) {
-    return commentDoc.reference
+      {required DocumentSnapshot<Map<String, dynamic>> replyDoc}) {
+    return replyDoc.reference
         .collection("postCommentReplies")
         .orderBy("likeCount", descending: true);
   }
 
   // 同じデータを取得しないようにする。
-  String indexPostCommentId = "";
 
   //コメントボタンが押された時の処理
   Future<void> init({
@@ -68,7 +68,7 @@ class RepliesModel extends ChangeNotifier {
     // await Future<void>.delayed(const Duration(seconds: 3));
     // if failed,use refreshFailed()
     if (repliesDocs.isNotEmpty) {
-      final qshot = await returnQuery(commentDoc: commentDoc)
+      final qshot = await returnQuery(replyDoc: commentDoc)
           .endBeforeDocument(repliesDocs.first)
           .get();
       final reversed = qshot.docs.reversed.toList();
@@ -83,7 +83,7 @@ class RepliesModel extends ChangeNotifier {
     required DocumentSnapshot<Map<String, dynamic>> commentDoc,
   }) async {
     // startLoading();
-    final qshot = await returnQuery(commentDoc: commentDoc).get();
+    final qshot = await returnQuery(replyDoc: commentDoc).get();
     repliesDocs = qshot.docs;
 
     // endLoading();
@@ -98,7 +98,7 @@ class RepliesModel extends ChangeNotifier {
 
     refreshController.loadComplete();
     if (repliesDocs.isNotEmpty) {
-      final qshot = await returnQuery(commentDoc: commentDoc)
+      final qshot = await returnQuery(replyDoc: commentDoc)
           .startAfterDocument(repliesDocs.last)
           .get();
       for (final commentDoc in qshot.docs) {
@@ -188,7 +188,7 @@ class RepliesModel extends ChangeNotifier {
         .collection("postCommentReplies")
         .doc(postCommentReplyId)
         .set(reply.toJson());
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future<void> like({
@@ -205,14 +205,13 @@ class RepliesModel extends ChangeNotifier {
     final String tokenId = returnUuidV4();
     final Timestamp now = Timestamp.now();
     final String activeUid = currentUserDoc.id;
-    final String passiveUid = comment.uid;
-    final DocumentReference<Map<String, dynamic>> postCommentReplyRef =
-        replyDoc.reference;
+    final String passiveUid = reply.uid;
+
     final LikeReplyToken likeReplyToken = LikeReplyToken(
         createdAt: now,
         activeUid: activeUid,
         passiveUid: passiveUid,
-        postCommentReplyRef: postCommentReplyRef,
+        postCommentReplyRef: replyDoc.reference,
         postCommentReplyId: postCommentReplyId,
         tokenId: tokenId,
         tokenType: likeReplyTokenTypeString);
@@ -231,9 +230,9 @@ class RepliesModel extends ChangeNotifier {
         createdAt: now,
         postCommentReplyCreatorUid: reply.uid,
         postCommentReplyId: postCommentReplyId,
-        postCommentReplyRef: postCommentReplyRef);
+        postCommentReplyRef: replyDoc.reference);
     //いいねする人が重複しないようにUidをdocumentIdとする
-    await postCommentReplyRef
+    await replyDoc.reference
         .collection("postCommentReplyLikes")
         .doc(activeUid)
         .set(replyLike.toJson());
