@@ -34,11 +34,16 @@ class CommentCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            UserImage(
-                length: 54,
-                userImageURL: comment.uid == mainModel.firestoreUser.uid
-                    ? mainModel.firestoreUser.userImageURL
-                    : comment.userImageURL),
+            Column(
+              children: [
+                UserImage(
+                    length: 54,
+                    userImageURL: comment.uid == mainModel.firestoreUser.uid
+                        ? mainModel.firestoreUser.userImageURL
+                        : comment.userImageURL),
+                Text(comment.userName)
+              ],
+            ),
             Text(
               comment.comment,
               style: TextStyle(fontSize: 24),
@@ -46,7 +51,7 @@ class CommentCard extends StatelessWidget {
             Column(
               children: [
                 IconButton(
-                    icon: Icon(Icons.comment),
+                    icon: Icon(Icons.reply),
                     onPressed: () => routes.toRepliesPage(
                         context: context,
                         mainModel: mainModel,

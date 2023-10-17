@@ -7,9 +7,9 @@ import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/reply/reply.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:flutter_sns_u_02/models/replies_model.dart';
-import 'package:flutter_sns_u_02/views/comments/conponents/comment_card.dart';
 import 'package:flutter_sns_u_02/views/refresh_screen.dart';
 import 'package:flutter_sns_u_02/views/reload_screen.dart';
+import 'package:flutter_sns_u_02/views/replies/conponents/reply_card.dart';
 
 class RepliesPage extends ConsumerWidget {
   const RepliesPage({
@@ -47,9 +47,12 @@ class RepliesPage extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   final repliesDoc = repliesDocs[index];
                   final Reply reply = Reply.fromJson(repliesDoc.data()!);
-                  return ListTile(
-                    title: Text(reply.reply),
-                  );
+                  return ReplyCard(
+                      replyDoc: commentDoc,
+                      comment: comment,
+                      mainModel: mainModel,
+                      repliesModel: repliesModel,
+                      reply: reply);
                 },
               ),
             ),

@@ -104,3 +104,42 @@ exports.onPostCommentDelete = functions.firestore.document('users/{uid}/posts/{p
     }
 );
 
+exports.onPostCommentReplyLikeCrete = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{postCommentId}/postCommentReplies/{postCommentReplyId}/postCommentReplyLikes/{activeUid}').onCreate(
+    async (snap,_) => {
+        const newValue = snap.data();
+        await newValue.postCommentReplyRef.update({
+            "likeCount":admin.firestore.FieldValue.increment(plusOne),
+        });
+    
+    }
+);
+
+exports.onPostCommentReplyLikeDelete = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{postCommentId}/postCommentReplies/{postCommentReplyId}/postCommentReplyLikes/{activeUid}').onDelete(
+    async (snap,_) =>{
+        const newValue = snap.data();
+        await newValue.postCommentReplyRef.update({
+            "likeCount":admin.firestore.FieldValue.increment(minusOne),
+        });
+    }
+);
+
+
+exports.onPostCommentReplyCrete = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{postCommentId}/postCommentReplies/{postCommentReplyId}').onCreate(
+    async (snap,_) => {
+        const newValue = snap.data();
+        await newValue.postCommentRef.update({
+            "postCommentReplyCount":admin.firestore.FieldValue.increment(plusOne),
+        });
+    
+    }
+);
+
+exports.onPostCommentReplyDelete = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{postCommentId}/postCommentReplies/{postCommentReplyId}').onDelete(
+    async (snap,_) =>{
+        const newValue = snap.data();
+        await newValue.postCommentRef.update({
+            "postCommentReplyCount":admin.firestore.FieldValue.increment(minusOne),
+        });
+    }
+);
+

@@ -59,6 +59,7 @@ dependencies:
   flutter_dotenv:
   algolia:
   freezed_annotation:
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:

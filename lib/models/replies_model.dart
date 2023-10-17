@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 //package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sns_u_02/constants/enums.dart';
 import 'package:flutter_sns_u_02/constants/strings.dart';
 
 import 'package:flutter_sns_u_02/constants/voids.dart' as voids;
 
 import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
+import 'package:flutter_sns_u_02/domain/like_reply_token/like_reply_token.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/domain/reply/reply.dart';
+import 'package:flutter_sns_u_02/domain/reply_like/reply_like.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -23,16 +26,16 @@ class RepliesModel extends ChangeNotifier {
   RefreshController refreshController = RefreshController();
   final TextEditingController textEditingController = TextEditingController();
   String repliesString = "";
+  String indexPostCommentId = "";
   List<DocumentSnapshot<Map<String, dynamic>>> repliesDocs = [];
   Query<Map<String, dynamic>> returnQuery(
-      {required DocumentSnapshot<Map<String, dynamic>> commentDoc}) {
-    return commentDoc.reference
+      {required DocumentSnapshot<Map<String, dynamic>> replyDoc}) {
+    return replyDoc.reference
         .collection("postCommentReplies")
         .orderBy("likeCount", descending: true);
   }
 
   // 同じデータを取得しないようにする。
-  String indexPostCommentId = "";
 
   //コメントボタンが押された時の処理
   Future<void> init({
@@ -65,7 +68,7 @@ class RepliesModel extends ChangeNotifier {
     // await Future<void>.delayed(const Duration(seconds: 3));
     // if failed,use refreshFailed()
     if (repliesDocs.isNotEmpty) {
-      final qshot = await returnQuery(commentDoc: commentDoc)
+      final qshot = await returnQuery(replyDoc: commentDoc)
           .endBeforeDocument(repliesDocs.first)
           .get();
       final reversed = qshot.docs.reversed.toList();
@@ -80,7 +83,7 @@ class RepliesModel extends ChangeNotifier {
     required DocumentSnapshot<Map<String, dynamic>> commentDoc,
   }) async {
     // startLoading();
-    final qshot = await returnQuery(commentDoc: commentDoc).get();
+    final qshot = await returnQuery(replyDoc: commentDoc).get();
     repliesDocs = qshot.docs;
 
     // endLoading();
@@ -95,7 +98,7 @@ class RepliesModel extends ChangeNotifier {
 
     refreshController.loadComplete();
     if (repliesDocs.isNotEmpty) {
-      final qshot = await returnQuery(commentDoc: commentDoc)
+      final qshot = await returnQuery(replyDoc: commentDoc)
           .startAfterDocument(repliesDocs.last)
           .get();
       for (final commentDoc in qshot.docs) {
@@ -185,6 +188,90 @@ class RepliesModel extends ChangeNotifier {
         .collection("postCommentReplies")
         .doc(postCommentReplyId)
         .set(reply.toJson());
+    // notifyListeners();
+  }
+
+  Future<void> like({
+    required DocumentSnapshot<Map<String, dynamic>> replyDoc,
+    required MainModel mainModel,
+    required Comment comment,
+    required Reply reply,
+  }) async {
+    //setting
+    final String postCommentReplyId = reply.postCommentReplyId;
+    mainModel.likeRepliesIds.add(postCommentReplyId);
+
+    final currentUserDoc = mainModel.currentUserDoc;
+    final String tokenId = returnUuidV4();
+    final Timestamp now = Timestamp.now();
+    final String activeUid = currentUserDoc.id;
+    final String passiveUid = reply.uid;
+
+    final LikeReplyToken likeReplyToken = LikeReplyToken(
+        createdAt: now,
+        activeUid: activeUid,
+        passiveUid: passiveUid,
+        postCommentReplyRef: replyDoc.reference,
+        postCommentReplyId: postCommentReplyId,
+        tokenId: tokenId,
+        tokenType: likeReplyTokenTypeString);
+    mainModel.likeReplyTokens.add(likeReplyToken);
     notifyListeners();
+
+    //自分がコメントにいいねした印
+    await currentUserDoc.reference
+        .collection("tokens")
+        .doc(tokenId)
+        .set(likeReplyToken.toJson());
+
+    //コメントがいいねされた時の印
+    final ReplyLike replyLike = ReplyLike(
+        activeUid: activeUid,
+        createdAt: now,
+        postCommentReplyCreatorUid: reply.uid,
+        postCommentReplyId: postCommentReplyId,
+        postCommentReplyRef: replyDoc.reference);
+    //いいねする人が重複しないようにUidをdocumentIdとする
+    await replyDoc.reference
+        .collection("postCommentReplyLikes")
+        .doc(activeUid)
+        .set(replyLike.toJson());
+  }
+
+  Future<void> unLike({
+    required DocumentSnapshot<Map<String, dynamic>> replyDoc,
+    required MainModel mainModel,
+    required Comment comment,
+    required Reply reply,
+  }) async {
+    final String postCommentReplyId = reply.postCommentReplyId;
+    mainModel.likeRepliesIds.remove(postCommentReplyId);
+    final currentUserDoc = mainModel.currentUserDoc;
+    final String activeUid = currentUserDoc.id;
+    final deleteLikeReplyToken = mainModel.likeReplyTokens
+        .where((element) => element.postCommentReplyId == postCommentReplyId)
+        .toList()
+        .first;
+    mainModel.likeReplyTokens.remove(deleteLikeReplyToken);
+    notifyListeners();
+//自分がいいねした印を削除
+    await currentUserDoc.reference
+        .collection("tokens")
+        .doc(deleteLikeReplyToken.tokenId)
+        .delete();
+
+    //投稿がいいねされた時の印を削除
+    // await replyDoc.reference
+    //     .collection("postCommentReplyLikes")
+    //     .doc(activeUid)
+    //     .delete();
+
+    final DocumentReference<Map<String, dynamic>> postReplyRef =
+        deleteLikeReplyToken.postCommentReplyRef;
+
+    await postReplyRef
+        .collection("postCommentReplyLikes")
+        .doc(activeUid)
+        .delete();
   }
 }
