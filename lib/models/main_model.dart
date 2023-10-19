@@ -15,6 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 //constants
 import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
 import 'package:flutter_sns_u_02/domain/like_reply_token/like_reply_token.dart';
+import 'package:flutter_sns_u_02/domain/mute_user_token/mute_user_token.dart';
 
 final mainProvider = ChangeNotifierProvider((ref) => MainModel());
 
@@ -37,6 +38,8 @@ class MainModel extends ChangeNotifier {
   List<String> likeCommentIds = [];
   List<LikeReplyToken> likeReplyTokens = [];
   List<String> likeRepliesIds = [];
+  List<MuteUserToken> muteUserTokens = [];
+  List<String> muteUserIds = [];
 
   // MainModelが起動した時の処理
   MainModel() {
@@ -99,6 +102,11 @@ class MainModel extends ChangeNotifier {
               LikeReplyToken.fromJson(tokenMap);
           likeReplyTokens.add(likeReplyToken);
           likeRepliesIds.add(likeReplyToken.postCommentReplyId);
+          break;
+        case TokenType.muteUser:
+          final MuteUserToken muteUserToken = MuteUserToken.fromJson(tokenMap);
+          muteUserTokens.add(muteUserToken);
+          muteUserIds.add(muteUserToken.passiveUid);
           break;
         case TokenType.mistake:
           break;

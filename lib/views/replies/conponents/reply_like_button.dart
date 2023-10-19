@@ -15,7 +15,7 @@ class ReplyLikeButton extends StatelessWidget {
     required this.reply,
     // required this.commentDoc,
   });
-  final DocumentSnapshot<Map<String, dynamic>> replyDoc;
+  final DocumentSnapshot replyDoc;
   final RepliesModel repliesModel;
   final Reply reply;
   final MainModel mainModel;
@@ -25,7 +25,7 @@ class ReplyLikeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isRepliesLike =
         mainModel.likeRepliesIds.contains(reply.postCommentReplyId);
-    final int likeReplyCount = reply.likeCount + 1;
+    final int likeReplyCount = reply.likeCount;
     return Row(
       children: [
         Container(
@@ -55,9 +55,7 @@ class ReplyLikeButton extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          isRepliesLike
-              ? likeReplyCount.toString()
-              : reply.likeCount.toString(),
+          likeReplyCount.toString(),
         ),
       ],
     );

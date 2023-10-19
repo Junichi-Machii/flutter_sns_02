@@ -1,5 +1,12 @@
 //Stiring にする
-enum TokenType { following, likePost, likeReply, likeComment, mistake }
+enum TokenType {
+  following,
+  likePost,
+  likeReply,
+  likeComment,
+  muteUser,
+  mistake
+}
 
 String returnTokenTypeString({required TokenType tokenType}) =>
     tokenType.toString().substring(10);
@@ -14,6 +21,9 @@ String likeCommentTokenTypeString =
 String likeReplyTokenTypeString =
     returnTokenTypeString(tokenType: TokenType.likeReply);
 
+String muteUserTokenTypeString =
+    returnTokenTypeString(tokenType: TokenType.muteUser);
+
 TokenType mapToTokenType({required Map<String, dynamic> tokenMap}) {
   final String tokenTypeString = tokenMap["tokenType"];
   if (tokenTypeString == followingTokenTypeString) {
@@ -24,6 +34,8 @@ TokenType mapToTokenType({required Map<String, dynamic> tokenMap}) {
     return TokenType.likeComment;
   } else if (tokenTypeString == likeReplyTokenTypeString) {
     return TokenType.likeReply;
+  } else if (tokenTypeString == muteUserTokenTypeString) {
+    return TokenType.muteUser;
   } else {
     return TokenType.mistake;
   }

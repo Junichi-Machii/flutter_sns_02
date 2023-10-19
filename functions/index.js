@@ -121,7 +121,7 @@ exports.onPostCommentReplyLikeDelete = functions.firestore.document('users/{uid}
             "likeCount":admin.firestore.FieldValue.increment(minusOne),
         });
     }
-);
+); [count.value],
 
 
 exports.onPostCommentReplyCrete = functions.firestore.document('users/{uid}/posts/{postId}/postComments/{postCommentId}/postCommentReplies/{postCommentReplyId}').onCreate(

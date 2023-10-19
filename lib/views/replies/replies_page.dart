@@ -27,35 +27,38 @@ class RepliesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final RepliesModel repliesModel = ref.watch(repliesProvider);
-    final repliesDocs = repliesModel.repliesDocs;
     return Scaffold(
       appBar: AppBar(
         title: Text("Reply"),
       ),
-      body: repliesDocs.isEmpty
-          ? ReloadScreen(
-              onReload: () async =>
-                  await repliesModel.onReload(commentDoc: commentDoc))
-          : RefreshScreen(
-              refreshController: repliesModel.refreshController,
-              onLoading: () async =>
-                  await repliesModel.onLoading(commentDoc: commentDoc),
-              onRefresh: () async =>
-                  await repliesModel.onRefresh(commentDoc: commentDoc),
-              child: ListView.builder(
-                itemCount: repliesDocs.length,
-                itemBuilder: (context, index) {
-                  final repliesDoc = repliesDocs[index];
-                  final Reply reply = Reply.fromJson(repliesDoc.data()!);
-                  return ReplyCard(
-                      replyDoc: commentDoc,
-                      comment: comment,
-                      mainModel: mainModel,
-                      repliesModel: repliesModel,
-                      reply: reply);
-                },
-              ),
-            ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: commentDoc.reference
+            .collection("postCommentReplies")
+            .orderBy("likeCount", descending: true)
+            .limit(30)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) const Text("Error: ");
+          if (snapshot.connectionState == ConnectionState.waiting)
+            const Text("Waiting");
+          final repliesDocs = snapshot.data!.docs;
+
+          return ListView(
+            // DocumentSnapshot<Map<String, dynamic>>と定義するのは不可
+            children: repliesDocs.map((DocumentSnapshot replyDoc) {
+              final Map<String, dynamic> data =
+                  replyDoc.data()! as Map<String, dynamic>;
+              final Reply reply = Reply.fromJson(data);
+              return ReplyCard(
+                  comment: comment,
+                  mainModel: mainModel,
+                  repliesModel: repliesModel,
+                  replyDoc: replyDoc,
+                  reply: reply);
+            }).toList(),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           child: const Icon(Icons.comment_outlined),

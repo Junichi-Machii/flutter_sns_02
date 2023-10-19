@@ -19,7 +19,7 @@ class ReplyCard extends StatelessWidget {
     required this.replyDoc,
     required this.reply,
   });
-  final DocumentSnapshot<Map<String, dynamic>> replyDoc;
+  final DocumentSnapshot replyDoc;
   final RepliesModel repliesModel;
   final Reply reply;
   final Comment comment;
