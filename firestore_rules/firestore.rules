@@ -16,7 +16,9 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow update: if isAdmin();
       allow create, delete: if isTheSameUserOrAdmin(uid);
-    
+      match /userMutes/{activeUid} {
+        allow create, delete: if isTheSameUserOrAdmin(activeUid);
+      }
       match /tokens/{tokenId}{
         allow read, create, delete: if isTheSameUserOrAdmin(uid);
       }
