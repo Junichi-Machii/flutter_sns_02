@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_sns_u_02/constants/themes.dart';
 import 'package:flutter_sns_u_02/details/sns_drawer.dart';
@@ -79,6 +80,8 @@ class MyHomePage extends ConsumerWidget {
   final ThemeModel themeModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final MuteUserModel muteUserModel = ref.watch(muteUserProvider);
+
     // MainModelが起動してinit()が実行される
     final MainModel mainModel = ref.watch(mainProvider);
     final SNSBottomNavigationBarModel snsBottomNavigationBarModel =
@@ -112,6 +115,7 @@ class MyHomePage extends ConsumerWidget {
               children: [
                 HomeScreen(
                   mainModel: mainModel,
+                  muteUserModel: muteUserModel,
                 ),
                 SearchScreen(),
                 ProfileScreen(
