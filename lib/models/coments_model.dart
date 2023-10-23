@@ -14,6 +14,7 @@ import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/like_comment_token/like_comment_token.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
+import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final commentsProvider = ChangeNotifierProvider((ref) => CommentsModel());

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_sns_u_02/details/post_card.dart';
+import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:flutter_sns_u_02/views/refresh_screen.dart';
 import 'package:flutter_sns_u_02/views/reload_screen.dart';
 
@@ -17,9 +18,11 @@ class HomeScreen extends ConsumerWidget {
   const HomeScreen({
     super.key,
     required this.mainModel,
+    required this.muteUserModel,
   });
 
   final MainModel mainModel;
+  final MuteUserModel muteUserModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,6 +47,11 @@ class HomeScreen extends ConsumerWidget {
                     final Post post = Post.fromJson(postDoc.data()!);
 
                     return PostCard(
+                        onTap: () => muteUserModel.showPopUp(
+                            docs: postDocs,
+                            mainModel: mainModel,
+                            passiveUid: post.uid,
+                            context: context),
                         post: post,
                         mainModel: mainModel,
                         commentsModel: commentsModel,

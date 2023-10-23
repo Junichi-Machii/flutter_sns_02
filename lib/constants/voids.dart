@@ -20,37 +20,3 @@ void showFlashDialog(
       barrierDismissible: true,
       builder: builder);
 }
-
-//CupertinoActionShieet
-void showPopUp({required BuildContext context}) {
-  showCupertinoModalPopup(
-    context: context,
-    // 中でcontextのinnerContextを生成する
-    builder: (BuildContext innerContext) => CupertinoActionSheet(
-      title: const Text('Title'),
-      message: const Text('Message'),
-      actions: <CupertinoActionSheetAction>[
-        CupertinoActionSheetAction(
-          isDefaultAction: true,
-          onPressed: () {
-            Navigator.pop(innerContext);
-          },
-          child: const Text('Default Action'),
-        ),
-        CupertinoActionSheetAction(
-          onPressed: () {
-            Navigator.pop(innerContext);
-          },
-          child: const Text('Action'),
-        ),
-        CupertinoActionSheetAction(
-          isDestructiveAction: true,
-          onPressed: () {
-            Navigator.pop(innerContext);
-          },
-          child: const Text('Destructive Action'),
-        ),
-      ],
-    ),
-  );
-}

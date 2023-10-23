@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/reply/reply.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
+import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:flutter_sns_u_02/models/replies_model.dart';
 import 'package:flutter_sns_u_02/views/refresh_screen.dart';
 import 'package:flutter_sns_u_02/views/reload_screen.dart';
@@ -27,6 +28,7 @@ class RepliesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final RepliesModel repliesModel = ref.watch(repliesProvider);
+    final MuteUserModel muteUserModel = ref.watch(muteUserProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text("Reply"),
@@ -50,6 +52,7 @@ class RepliesPage extends ConsumerWidget {
                   replyDoc.data()! as Map<String, dynamic>;
               final Reply reply = Reply.fromJson(data);
               return ReplyCard(
+                  onTap: () {},
                   comment: comment,
                   mainModel: mainModel,
                   repliesModel: repliesModel,
