@@ -9,12 +9,15 @@ const String drawerAccountTitle = 'Account';
 const String drawerThemeText = 'Theme';
 const String profileTitle = 'Profile';
 const String adminPageTitle = 'Admin';
+const String editProfilePageTitle = 'Edit Profile';
 
 //  text
 const String sigInText = 'Sign In';
 const String loginText = 'Log In';
 const String logOut = 'Log Out';
 const String upLoadText = 'Up Loading...';
+const String upDateText = 'Update';
+
 const String signInNotMemberText = "Not a member?";
 const String registerText = "Register now";
 const String reloadText = "Reload";

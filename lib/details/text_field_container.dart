@@ -4,23 +4,24 @@ class TextFieldContainer extends StatelessWidget {
   const TextFieldContainer(
       {super.key,
       required this.color,
-      // required this.borderColor,
+      required this.widthRate,
       required this.child});
 
   final Color color;
   // final Color borderColor;
   final Widget child;
+  final double widthRate;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final double height = size.height;
-    final double width = size.width;
+    final maxWidth = MediaQuery.of(context).size.width;
 
     return Center(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.0),
-        width: width * 0.9,
+        width: maxWidth * widthRate,
         decoration: BoxDecoration(
             // border: Border.all(
             //   // color: borderColor,

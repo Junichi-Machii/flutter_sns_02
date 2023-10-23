@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
 import 'package:flutter_sns_u_02/constants/strings.dart';
 import 'package:flutter_sns_u_02/details/rounded_button.dart';
 import 'package:flutter_sns_u_02/details/user_image.dart';
@@ -62,6 +65,16 @@ class ProfileScreen extends ConsumerWidget {
               currentUserDoc: mainModel.currentUserDoc),
           color: Colors.lightGreen,
           text: upLoadText,
+          widthRate: 0.85,
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        RoundedButton(
+          onPressed: () =>
+              routes.toEditProfilePage(context: context, mainModel: mainModel),
+          color: Colors.purple,
+          text: upDateText,
           widthRate: 0.85,
         ),
       ],

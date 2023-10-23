@@ -20,10 +20,6 @@ final profileProvider = ChangeNotifierProvider(((ref) => ProfileModel()));
 class ProfileModel extends ChangeNotifier {
   File? croppedFile;
 
-  // Future<void> pickImage() async {
-  //   xFile = await returnXFile();
-  // }
-
   Future<String> uploadImageAndGetURL(
       {required String uid, required File file}) async {
     final String fileName = returnJpgFileName();

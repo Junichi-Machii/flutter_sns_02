@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool isValidUser(
-        {required List<String> muteUids, required DocumentSnapshot doc}) =>
-    !muteUids.contains(doc["uid"]);
+        {required List<String> muteUserIds,
+        required DocumentSnapshot<Map<String, dynamic>> doc}) =>
+    !muteUserIds.contains(doc["uid"]);

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flash/flash_helper.dart';
 import 'package:flash/flash.dart';
+import 'package:flutter_sns_u_02/constants/boold.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
 
 void showFlashDialog(
@@ -24,39 +25,43 @@ void showFlashDialog(
 
 // inside of onRefresh
 Future<void> processNewDocs(
-    {required List<String> muteUids,
+    {required List<String> muteUserIds,
     required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required Query<Map<String, dynamic>> query}) async {
   if (docs.isNotEmpty) {
     final qshot = await query.limit(30).endBeforeDocument(docs.first).get();
     final reversed = qshot.docs.reversed.toList();
     for (final doc in reversed) {
-      if (!muteUids.contains(doc["uid"])) docs.insert(0, doc);
+      if (isValidUser(muteUserIds: muteUserIds, doc: doc)) docs.insert(0, doc);
     }
   }
 }
 
 // inside of onReload
 Future<void> processBasicDocs(
-    {required List<String> muteUids,
+    {required List<String> muteUserIds,
     required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required Query<Map<String, dynamic>> query}) async {
   final qshot = await query.limit(30).get();
-  for (final doc in qshot.docs) {
+  final basicDocs = qshot.docs;
+  //中身を削除
+  docs.removeWhere((element) => true);
+  for (final doc in basicDocs) {
     //doc["uid"]は投稿主のuid
-    if (!muteUids.contains(doc["uid"])) docs.add(doc);
+    if (isValidUser(muteUserIds: muteUserIds, doc: doc)) docs.add(doc);
   }
 }
 
 // inside of onLoading
 Future<void> processOldDocs(
-    {required List<String> muteUids,
+    {required List<String> muteUserIds,
     required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required Query<Map<String, dynamic>> query}) async {
   if (docs.isNotEmpty) {
     final qshot = await query.limit(30).startAfterDocument(docs.last).get();
-    for (final doc in qshot.docs) {
-      if (!muteUids.contains(doc["uid"])) docs.add(doc);
+    final oldDocs = qshot.docs;
+    for (final doc in oldDocs) {
+      if (isValidUser(muteUserIds: muteUserIds, doc: doc)) docs.add(doc);
     }
   }
 }

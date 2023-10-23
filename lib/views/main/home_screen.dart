@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_sns_u_02/details/post_card.dart';
+import 'package:flutter_sns_u_02/models/create_post_modesl.dart';
 import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:flutter_sns_u_02/views/refresh_screen.dart';
 import 'package:flutter_sns_u_02/views/reload_screen.dart';
@@ -30,36 +31,44 @@ class HomeScreen extends ConsumerWidget {
     final PostsModel postsModel = ref.watch(postsProvider);
     final postDocs = homeModel.postDocs;
     final CommentsModel commentsModel = ref.watch(commentsProvider);
+    final CreatePostModel createPostModel = ref.watch(createPostProvider);
 
-    return postDocs.isEmpty
-        ? ReloadScreen(
-            onReload: () => homeModel.onReload(),
-          )
-        : SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: RefreshScreen(
-                onLoading: () async => await homeModel.onLoading(),
-                refreshController: homeModel.refreshController,
-                child: ListView.builder(
-                  itemCount: postDocs.length,
-                  itemBuilder: (context, index) {
-                    final postDoc = postDocs[index];
-                    final Post post = Post.fromJson(postDoc.data()!);
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.new_label),
+        onPressed: () {
+          return createPostModel.showPostDialog(
+              context: context, mainModel: mainModel);
+        },
+      ),
+      body: postDocs.isEmpty
+          ? ReloadScreen(
+              onReload: () => homeModel.onReload(),
+            )
+          : RefreshScreen(
+              onLoading: () async => await homeModel.onLoading(),
+              refreshController: homeModel.refreshController,
+              child: ListView.builder(
+                itemCount: postDocs.length,
+                itemBuilder: (context, index) {
+                  final postDoc = postDocs[index];
+                  final Post post = Post.fromJson(postDoc.data()!);
 
-                    return PostCard(
-                        onTap: () => muteUserModel.showPopUp(
-                            docs: postDocs,
-                            mainModel: mainModel,
-                            passiveUid: post.uid,
-                            context: context),
-                        post: post,
-                        mainModel: mainModel,
-                        commentsModel: commentsModel,
-                        postDoc: postDoc,
-                        postsModel: postsModel);
-                  },
-                ),
-                onRefresh: () async => await homeModel.onRefresh()),
-          );
+                  return PostCard(
+                      onTap: () => muteUserModel.showPopUp(
+                          docs: postDocs,
+                          mainModel: mainModel,
+                          passiveUid: post.uid,
+                          context: context),
+                      post: post,
+                      mainModel: mainModel,
+                      commentsModel: commentsModel,
+                      postDoc: postDoc,
+                      postsModel: postsModel);
+                },
+              ),
+              onRefresh: () async => await homeModel.onRefresh(),
+            ),
+    );
   }
 }

@@ -24,6 +24,7 @@ class RoundedTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
+      widthRate: 0.85,
       color: color,
       child: TextField(
         style: TextStyle(color: Colors.black87),

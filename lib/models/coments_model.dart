@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sns_u_02/constants/enums.dart';
+import 'package:flutter_sns_u_02/constants/lists.dart';
 
 import 'package:flutter_sns_u_02/constants/routes.dart' as routes;
 import 'package:flutter_sns_u_02/constants/strings.dart';
@@ -24,6 +25,8 @@ class CommentsModel extends ChangeNotifier {
   final TextEditingController textEditingController = TextEditingController();
   String commentString = "";
   List<DocumentSnapshot<Map<String, dynamic>>> commentDocs = [];
+  List<String> muteUserIds = [];
+
   bool isLoading = false;
   Query<Map<String, dynamic>> returnQuery(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) {
@@ -35,8 +38,17 @@ class CommentsModel extends ChangeNotifier {
 // 同じデータを取得しないようにする。
   String indexPostId = "";
 
+  CommentsModel() {
+    //１回だけ読み込む
+    init();
+  }
+
+  Future<void> init() async {
+    muteUserIds = await returnMuteUids();
+  }
+
 //コメントボタンが押された時の処理
-  Future<void> init({
+  Future<void> onCommentButtonPressed({
     required DocumentSnapshot<Map<String, dynamic>> postDoc,
     required BuildContext context,
     required MainModel mainModel,
@@ -53,28 +65,22 @@ class CommentsModel extends ChangeNotifier {
     // indexPostId = postDoc.id;
   }
 
-  // void startLoading() {
-  //   isLoading = true;
-  //   notifyListeners();
-  // }
-
-  // void endLoading() {
-  //   isLoading = false;
-  //   notifyListeners();
-  // }
-
   Future<void> onRefresh(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
     refreshController.refreshCompleted();
     await voids.processNewDocs(
-        docs: commentDocs, query: returnQuery(postDoc: postDoc));
+        muteUserIds: muteUserIds,
+        docs: commentDocs,
+        query: returnQuery(postDoc: postDoc));
     notifyListeners();
   }
 
   Future<void> onReload(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
     await voids.processBasicDocs(
-        docs: commentDocs, query: returnQuery(postDoc: postDoc));
+        muteUserIds: muteUserIds,
+        docs: commentDocs,
+        query: returnQuery(postDoc: postDoc));
     notifyListeners();
   }
 
@@ -82,7 +88,9 @@ class CommentsModel extends ChangeNotifier {
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
     refreshController.loadComplete();
     await voids.processOldDocs(
-        docs: commentDocs, query: returnQuery(postDoc: postDoc));
+        muteUserIds: muteUserIds,
+        docs: commentDocs,
+        query: returnQuery(postDoc: postDoc));
     notifyListeners();
   }
 

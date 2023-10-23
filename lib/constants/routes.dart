@@ -6,11 +6,11 @@ import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/main.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
-import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 
 import 'package:flutter_sns_u_02/views/account_page.dart';
 import 'package:flutter_sns_u_02/views/admin_page.dart';
 import 'package:flutter_sns_u_02/views/comments/comments_page.dart';
+import 'package:flutter_sns_u_02/views/edit_profile_page.dart';
 import 'package:flutter_sns_u_02/views/main/passive_user_profile_page.dart';
 import 'package:flutter_sns_u_02/views/replies/replies_page.dart';
 import 'package:flutter_sns_u_02/views/signup_page.dart';
@@ -81,4 +81,13 @@ void toRepliesPage({
                   mainModel: mainModel,
                   commentDoc: commentDoc,
                   comment: comment,
+                )));
+
+void toEditProfilePage(
+        {required BuildContext context, required MainModel mainModel}) =>
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditProfilePage(
+                  mainModel: mainModel,
                 )));

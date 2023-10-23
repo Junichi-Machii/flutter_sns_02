@@ -43,19 +43,20 @@ class PostCard extends StatelessWidget {
                     : post.imageURL),
             Text(
               post.text,
-              style: TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 24),
             ),
             Column(
               children: [
                 IconButton(
-                  icon: Icon(Icons.comment),
-                  onPressed: () async => await commentsModel.init(
-                      context: context,
-                      mainModel: mainModel,
-                      postDoc: postDoc,
-                      post: post),
+                  icon: const Icon(Icons.comment),
+                  onPressed: () async =>
+                      await commentsModel.onCommentButtonPressed(
+                          context: context,
+                          mainModel: mainModel,
+                          postDoc: postDoc,
+                          post: post),
                 ),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 PostLikeButton(
                     mainModel: mainModel,
                     post: post,

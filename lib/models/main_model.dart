@@ -114,6 +114,11 @@ class MainModel extends ChangeNotifier {
     }
   }
 
+  void updateFrontUserName({required String newUserName}) {
+    firestoreUser = firestoreUser.copyWith(userName: newUserName);
+    notifyListeners();
+  }
+
   Future<void> logout({required BuildContext context}) async {
     await FirebaseAuth.instance.signOut();
     setCurrentUser();
