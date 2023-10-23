@@ -75,7 +75,6 @@ class CommentsModel extends ChangeNotifier {
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
     await voids.processBasicDocs(
         docs: commentDocs, query: returnQuery(postDoc: postDoc));
-
     notifyListeners();
   }
 

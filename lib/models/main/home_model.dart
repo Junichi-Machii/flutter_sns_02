@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_sns_u_02/constants/others.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'package:flutter_sns_u_02/constants/others.dart';
+import 'package:flutter_sns_u_02/constants/voids.dart' as voids;
 
 final homeProvider = ChangeNotifierProvider((ref) => HomeModel());
 
@@ -46,42 +48,19 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> onRefresh() async {
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
-    // await Future<void>.delayed(const Duration(seconds: 3));
-    // if failed,use refreshFailed()
     refreshController.refreshCompleted();
-    if (postDocs.isNotEmpty) {
-      final qshot = await returnQuery().endBeforeDocument(postDocs.first).get();
-      final reversed = qshot.docs.reversed.toList();
-      for (final postDoc in reversed) {
-        postDocs.insert(0, postDoc);
-      }
-    }
+    await voids.processNewDocs(docs: postDocs, query: returnQuery());
     notifyListeners();
   }
 
   Future<void> onReload() async {
-    startLoading();
-    final qshot = await returnQuery().get();
-    postDocs = qshot.docs;
-
-    endLoading();
+    await voids.processBasicDocs(docs: postDocs, query: returnQuery());
     notifyListeners();
   }
 
   Future<void> onLoading() async {
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-
     refreshController.loadComplete();
-    if (postDocs.isNotEmpty) {
-      final qshot = await returnQuery().startAfterDocument(postDocs.last).get();
-      for (final postDoc in qshot.docs) {
-        postDocs.add(postDoc);
-      }
-    }
+    await voids.processOldDocs(docs: postDocs, query: returnQuery());
     notifyListeners();
   }
 }
