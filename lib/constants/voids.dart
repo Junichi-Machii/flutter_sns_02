@@ -24,35 +24,39 @@ void showFlashDialog(
 
 // inside of onRefresh
 Future<void> processNewDocs(
-    {required List<DocumentSnapshot<Map<String, dynamic>>> docs,
+    {required List<String> muteUids,
+    required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required Query<Map<String, dynamic>> query}) async {
   if (docs.isNotEmpty) {
     final qshot = await query.limit(30).endBeforeDocument(docs.first).get();
     final reversed = qshot.docs.reversed.toList();
-    for (final postDoc in reversed) {
-      docs.insert(0, postDoc);
+    for (final doc in reversed) {
+      if (!muteUids.contains(doc["uid"])) docs.insert(0, doc);
     }
   }
 }
 
 // inside of onReload
 Future<void> processBasicDocs(
-    {required List<DocumentSnapshot<Map<String, dynamic>>> docs,
+    {required List<String> muteUids,
+    required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required Query<Map<String, dynamic>> query}) async {
   final qshot = await query.limit(30).get();
   for (final doc in qshot.docs) {
-    docs.add(doc);
+    //doc["uid"]は投稿主のuid
+    if (!muteUids.contains(doc["uid"])) docs.add(doc);
   }
 }
 
 // inside of onLoading
 Future<void> processOldDocs(
-    {required List<DocumentSnapshot<Map<String, dynamic>>> docs,
+    {required List<String> muteUids,
+    required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required Query<Map<String, dynamic>> query}) async {
   if (docs.isNotEmpty) {
     final qshot = await query.limit(30).startAfterDocument(docs.last).get();
-    for (final postDoc in qshot.docs) {
-      docs.add(postDoc);
+    for (final doc in qshot.docs) {
+      if (!muteUids.contains(doc["uid"])) docs.add(doc);
     }
   }
 }
