@@ -16,6 +16,7 @@ class PostCard extends StatelessWidget {
     required this.commentsModel,
     required this.postDoc,
     required this.postsModel,
+    required this.onTap,
   });
 
   final Post post;
@@ -23,9 +24,12 @@ class PostCard extends StatelessWidget {
   final CommentsModel commentsModel;
   final PostsModel postsModel;
   final DocumentSnapshot<Map<String, dynamic>> postDoc;
+  final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return CardContainer(
+      onTap: onTap,
       borderColor: Colors.lightBlue,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

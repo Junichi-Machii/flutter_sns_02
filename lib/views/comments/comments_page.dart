@@ -6,6 +6,7 @@ import 'package:flutter_sns_u_02/domain/comment/comment.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/coments_model.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
+import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:flutter_sns_u_02/views/comments/conponents/comment_card.dart';
 import 'package:flutter_sns_u_02/views/refresh_screen.dart';
 import 'package:flutter_sns_u_02/views/reload_screen.dart';
@@ -27,6 +28,7 @@ class CommentsPage extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final CommentsModel commentsModel = ref.watch(commentsProvider);
+    final MuteUserModel muteUserModel = ref.watch(muteUserProvider);
     final commentDocs = commentsModel.commentDocs;
     final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
         GlobalKey<RefreshIndicatorState>();
@@ -51,6 +53,7 @@ class CommentsPage extends ConsumerWidget {
                   final commentDoc = commentDocs[index];
                   final Comment comment = Comment.fromJson(commentDoc.data()!);
                   return CommentCard(
+                      onTap: () {},
                       comment: comment,
                       mainModel: mainModel,
                       commentsModel: commentsModel,

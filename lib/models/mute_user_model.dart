@@ -15,16 +15,18 @@ final muteUserProvider = ChangeNotifierProvider((ref) => MuteUserModel());
 
 class MuteUserModel extends ChangeNotifier {
   Future<void> muteUser({
-    required DocumentSnapshot<Map<String, dynamic>> passiveUserDoc,
     required List<DocumentSnapshot<Map<String, dynamic>>> docs,
     required MainModel mainModel,
+    required String passiveUid,
   }) async {
     final tokenId = returnUuidV4();
     final Timestamp now = Timestamp.now();
-    final String passiveUid = passiveUserDoc.id;
     final String activeUid = mainModel.currentUserDoc.id;
     final currentUserDoc = mainModel.currentUserDoc;
-
+    final passiveUserDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(passiveUid)
+        .get();
     final MuteUserToken muteUserToken = MuteUserToken(
         createdAt: now,
         activeUid: activeUid,
@@ -46,7 +48,7 @@ class MuteUserModel extends ChangeNotifier {
         passiveUid: passiveUid,
         createdAt: now,
         passiveUserRef: passiveUserRef);
-    await passiveUserDoc.reference
+    await passiveUserRef
         .collection("userMutes")
         .doc(activeUid)
         .set(userMute.toJson());
@@ -54,31 +56,68 @@ class MuteUserModel extends ChangeNotifier {
 
 // cupertinoAlertDialog
 
-  void showAlertDialog(BuildContext context) {
+  void showAlertDialog(
+      {required List<DocumentSnapshot<Map<String, dynamic>>> docs,
+      required MainModel mainModel,
+      required String passiveUid,
+      required BuildContext context}) {
     showCupertinoModalPopup<void>(
       context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: const Text('Alert'),
-        content: const Text('Proceed with destructive action?'),
+      builder: (BuildContext innerContext) => CupertinoAlertDialog(
+        title: const Text('Users Mute'),
+        content: const Text('Is it really a good idea to mute users?'),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
-            /// This parameter indicates this action is the default,
-            /// and turns the action's text to bold text.
             isDefaultAction: true,
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(innerContext);
             },
             child: const Text('No'),
           ),
           CupertinoDialogAction(
-            /// This parameter indicates the action would perform
-            /// a destructive action such as deletion, and turns
-            /// the action's text color to red.
             isDestructiveAction: true,
-            onPressed: () {
-              Navigator.pop(context);
+            onPressed: () async {
+              Navigator.pop(innerContext);
+              await muteUser(
+                  passiveUid: passiveUid, docs: docs, mainModel: mainModel);
             },
             child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //CupertinoActionShieet
+  void showPopUp(
+      {required List<DocumentSnapshot<Map<String, dynamic>>> docs,
+      required MainModel mainModel,
+      required String passiveUid,
+      required BuildContext context}) {
+    showCupertinoModalPopup(
+      context: context,
+      // 中でcontextのinnerContextを生成する
+      builder: (BuildContext innerContext) => CupertinoActionSheet(
+        title: const Text('Select operation'),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(innerContext);
+              showAlertDialog(
+                  passiveUid: passiveUid,
+                  docs: docs,
+                  mainModel: mainModel,
+                  context: context);
+            },
+            child: const Text('Mute a user'),
+          ),
+          CupertinoActionSheetAction(
+            isDestructiveAction: true,
+            onPressed: () {
+              Navigator.pop(innerContext);
+            },
+            child: const Text('Return'),
           ),
         ],
       ),

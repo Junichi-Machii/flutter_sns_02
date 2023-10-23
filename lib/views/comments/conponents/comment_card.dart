@@ -19,15 +19,19 @@ class CommentCard extends StatelessWidget {
     required this.commentsModel,
     required this.commentDoc,
     required this.post,
+    required this.onTap,
   });
   final DocumentSnapshot<Map<String, dynamic>> commentDoc;
   final CommentsModel commentsModel;
   final Post post;
   final Comment comment;
   final MainModel mainModel;
+  final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return CardContainer(
+      onTap: onTap,
       borderColor: Colors.lightBlue,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

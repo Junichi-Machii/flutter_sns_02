@@ -14,6 +14,7 @@ import 'package:flutter_sns_u_02/domain/firestore_user/firestore_user.dart';
 import 'package:flutter_sns_u_02/domain/like_comment_token/like_comment_token.dart';
 import 'package:flutter_sns_u_02/domain/post/post.dart';
 import 'package:flutter_sns_u_02/models/main_model.dart';
+import 'package:flutter_sns_u_02/models/mute_user_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 final commentsProvider = ChangeNotifierProvider((ref) => CommentsModel());
@@ -65,47 +66,24 @@ class CommentsModel extends ChangeNotifier {
   Future<void> onRefresh(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
     refreshController.refreshCompleted();
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
-    // await Future<void>.delayed(const Duration(seconds: 3));
-    // if failed,use refreshFailed()
-    if (commentDocs.isNotEmpty) {
-      final qshot = await returnQuery(postDoc: postDoc)
-          .endBeforeDocument(commentDocs.first)
-          .get();
-      final reversed = qshot.docs.reversed.toList();
-      for (final commentDoc in reversed) {
-        commentDocs.insert(0, commentDoc);
-      }
-    }
+    await voids.processNewDocs(
+        docs: commentDocs, query: returnQuery(postDoc: postDoc));
     notifyListeners();
   }
 
   Future<void> onReload(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
-    // startLoading();
-    final qshot = await returnQuery(postDoc: postDoc).get();
-    commentDocs = qshot.docs;
+    await voids.processBasicDocs(
+        docs: commentDocs, query: returnQuery(postDoc: postDoc));
 
-    // endLoading();
     notifyListeners();
   }
 
   Future<void> onLoading(
       {required DocumentSnapshot<Map<String, dynamic>> postDoc}) async {
-    // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use loadFailed(),if no data return,use LoadNodata()
-
     refreshController.loadComplete();
-    if (commentDocs.isNotEmpty) {
-      final qshot = await returnQuery(postDoc: postDoc)
-          .startAfterDocument(commentDocs.last)
-          .get();
-      for (final commentDoc in qshot.docs) {
-        commentDocs.add(commentDoc);
-      }
-    }
+    await voids.processOldDocs(
+        docs: commentDocs, query: returnQuery(postDoc: postDoc));
     notifyListeners();
   }
 

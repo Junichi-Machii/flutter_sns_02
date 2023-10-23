@@ -18,15 +18,19 @@ class ReplyCard extends StatelessWidget {
     required this.repliesModel,
     required this.replyDoc,
     required this.reply,
+    required this.onTap,
   });
   final DocumentSnapshot replyDoc;
   final RepliesModel repliesModel;
   final Reply reply;
   final Comment comment;
   final MainModel mainModel;
+  final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return CardContainer(
+      onTap: onTap,
       borderColor: Colors.lightBlue,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
